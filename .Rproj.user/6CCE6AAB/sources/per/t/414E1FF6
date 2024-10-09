@@ -1,0 +1,28 @@
+{
+    "id": "414E1FF6",
+    "path": "~/Louison/M1/ADM/DM1/R/v2script.R",
+    "project_path": "R/v2script.R",
+    "type": "r_source",
+    "hash": "3271903088",
+    "contents": "",
+    "dirty": false,
+    "created": 1728464895249.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "122,26",
+        "scrollLine": "110",
+        "docOutlineVisible": "1"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1728513364,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1728513364806,
+    "read_only": false,
+    "read_only_alternatives": []
+}

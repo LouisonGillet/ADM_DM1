@@ -1,0 +1,130 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{french}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={DM 1 : Manipulations élémentaires autour de l'inertie},
+  pdfauthor={EL MAZZOUJI Wahel; GILLET Louison},
+  pdflang={true},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{DM 1 : Manipulations élémentaires autour de l'inertie}
+\author{EL MAZZOUJI Wahel \and GILLET Louison}
+\date{2024/2025}
+
+\begin{document}
+\maketitle
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{ssd.png}
+\end{figure}
+
+\newpage
+\tableofcontents
+\cleardoublepage
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Dans le cadre de notre étude, nous avons accès à un jeu de données riche
+qui examine la diversité de 27 espèces d'arbres au sein de 1000
+parcelles forestières. Cette analyse vise à explorer la variabilité des
+densités de peuplement de ces espèces dans le contexte particulier de la
+forêt du bassin du Congo. Le jeu de données se compose de 30 variables
+quantitatives, dont les principales incluent le comptage des individus
+pour chaque espèce, la superficie de chaque parcelle ainsi que deux
+variables supplémentaires relatives au type forestier et au type
+géologique. À cela s'ajoute une variable qualitative, identifiée par un
+``code'', qui permet d'apporter des informations contextuelles sur
+chaque parcelle. Cette étude permettra d'éclairer les dynamiques
+écologiques en jeu et d'approfondir notre compréhension des interactions
+entre les espèces arborées et leur environnement.
+
+\hypertarget{partie-1}{%
+\section{Partie 1}\label{partie-1}}
+
+Nous cherchons à calculer la densité de peuplement de chaque espèce par
+unité de surface. Pour chaque parcelle, la densité est donnée par :
+
+\[
+D_{ij} = \frac{N_{ij}}{S_{j}}
+\]
+
+où \(D_{ij}\) est la densité pour l'espèce \(i\) dans la parcelle \(j\),
+\(N_{ij}\) est le nombre d'individus de l'espèce \(i\) dans la parcelle
+\(j\) et \(S_{j}\) est la surface de la parcelle \(j\).
+
+Nous utilisons des densités plutôt que des comptages car cela permet de
+normaliser les données par rapport à la taille de la parcelle, ce qui
+rend les comparaisons entre les parcelles équitables.
+
+\end{document}

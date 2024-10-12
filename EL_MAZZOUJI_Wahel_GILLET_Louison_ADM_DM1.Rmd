@@ -1,0 +1,48 @@
+---
+documentclass: "article"
+lang: true
+babel-lang: "french"
+geometry:
+  - left=2cm
+  - right=2cm
+  - top=2.5cm
+  - bottom=2.5cm
+title: "DM 1 : Manipulations élémentaires autour de l'inertie"
+author: 
+- EL MAZZOUJI Wahel
+- GILLET Louison
+date: "2024/2025"
+output: 
+  pdf_document:
+    keep_tex : yes
+    fig_caption : yes 
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{ssd.png}
+\end{figure}
+
+\newpage
+\tableofcontents
+\cleardoublepage
+
+# Introduction 
+Dans le cadre de notre étude, nous avons accès à un jeu de données riche qui examine la diversité de 27 espèces d'arbres au sein de 1000 parcelles forestières. Cette analyse vise à explorer la variabilité des densités de peuplement de ces espèces dans le contexte particulier de la forêt du bassin du Congo.
+Le jeu de données se compose de 30 variables quantitatives, dont les principales incluent le comptage des individus pour chaque espèce, la superficie de chaque parcelle ainsi que deux variables supplémentaires relatives au type forestier et au type géologique. À cela s’ajoute une variable qualitative, identifiée par un "code", qui permet d'apporter des informations contextuelles sur chaque parcelle.
+Cette étude permettra d'éclairer les dynamiques écologiques en jeu et d'approfondir notre compréhension des interactions entre les espèces arborées et leur environnement.
+
+# Partie 1 
+Nous cherchons à calculer la densité de peuplement de chaque espèce par unité de surface. Pour chaque parcelle, la densité est donnée par :
+
+\[
+D_{ij} = \frac{N_{ij}}{S_{j}}
+\]
+
+où \(D_{ij}\) est la densité pour l'espèce \(i\) dans la parcelle \(j\), \(N_{ij}\) est le nombre d'individus de l'espèce \(i\) dans la parcelle \(j\) et \(S_{j}\) est la surface de la parcelle \(j\).
+
+Nous utilisons des densités plutôt que des comptages car cela permet de normaliser les données par rapport à la taille de la parcelle, ce qui rend les comparaisons entre les parcelles équitables.
+

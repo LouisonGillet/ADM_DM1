@@ -1,0 +1,6 @@
+Script : 
+ - R2_par_espece = variance inter types, normal ? --> variance totale par especes vaut 1 
+Rapport :
+ - indiquer qu'on supprime dernière ligne (partie dataframe)
+ - indiquer cas équipondéré pour preuve barycentre 
+ - partie pour aller plus loin qui reprend partie 1 pour geology 

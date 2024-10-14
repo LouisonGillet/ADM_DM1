@@ -7,7 +7,7 @@ geometry:
   - right=2cm
   - top=2.5cm
   - bottom=2.5cm
-title: "DM 1 : Manipulations élémentaires autour de l'inertie"
+title: "Trouver un titre évocateur et moins formel"
 author: 
 - EL MAZZOUJI Wahel
 - GILLET Louison
@@ -16,9 +16,15 @@ output:
   pdf_document:
     keep_tex : yes
     fig_caption : yes 
+    toc_depth: 3
+    number_sections: true
+    includes:
+      in_header: header.tex
 ---
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r chunksetup, include = FALSE}
+library('knitr')
+opts_chunk$set(comment = '', echo = FALSE,  tidy = TRUE, 
+               fig.pos = 'ht!', fig.align='center')
 ```
 
 \begin{figure}[h!]
@@ -27,15 +33,39 @@ knitr::opts_chunk$set(echo = TRUE)
 \end{figure}
 
 \newpage
-\tableofcontents
-\cleardoublepage
 
-# Introduction 
+\tableofcontents
+
+\newpage
+
+# INTRODUCTION 
 Dans le cadre de notre étude, nous avons accès à un jeu de données riche qui examine la diversité de 27 espèces d'arbres au sein de 1000 parcelles forestières. Cette analyse vise à explorer la variabilité des densités de peuplement de ces espèces dans le contexte particulier de la forêt du bassin du Congo.
 Le jeu de données se compose de 30 variables quantitatives, dont les principales incluent le comptage des individus pour chaque espèce, la superficie de chaque parcelle ainsi que deux variables supplémentaires relatives au type forestier et au type géologique. À cela s’ajoute une variable qualitative, identifiée par un "code", qui permet d'apporter des informations contextuelles sur chaque parcelle.
 Cette étude permettra d'éclairer les dynamiques écologiques en jeu et d'approfondir notre compréhension des interactions entre les espèces arborées et leur environnement.
 
-# Partie 1 
+# DONNEES ET BUT 
+# PARTIE 1 
+```{r, echo=FALSE, include=FALSE}
+load(file = "ressources/prepa.Rdata")
+if(!require(ggplot2)){
+  install.packages("ggplot2")
+}
+if(!require(dplyr)){
+  install.packages("dplyr")
+}
+if(!require(tidyr)){
+  install.packages("tidyr")
+}
+if(!require(gt)){
+  install.packages("gt")
+}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(gt)
+```
+## Densités
+### Densité de peuplement
 Nous cherchons à calculer la densité de peuplement de chaque espèce par unité de surface. Pour chaque parcelle, la densité est donnée par :
 
 \[
@@ -45,4 +75,240 @@ D_{ij} = \frac{N_{ij}}{S_{j}}
 où \(D_{ij}\) est la densité pour l'espèce \(i\) dans la parcelle \(j\), \(N_{ij}\) est le nombre d'individus de l'espèce \(i\) dans la parcelle \(j\) et \(S_{j}\) est la surface de la parcelle \(j\).
 
 Nous utilisons des densités plutôt que des comptages car cela permet de normaliser les données par rapport à la taille de la parcelle, ce qui rend les comparaisons entre les parcelles équitables.
+
+```{r extrait_densite_peuplement, echo=FALSE}
+# Extraire les 5 premières lignes et 7 premières colonnes
+densite_p <- data[especes]/data$surface
+densite_subset <- densite_p [1:5,1:7]
+
+kable(densite_subset, caption = "Extrait du tableau des densités de peuplement",booktabs=TRUE)
+``` 
+
+### Densité centrée-réduite
+
+Nous devons centrer et réduire les variables quantitatives pour mieux comparer celles qui décrivent les différentes densités. Nous allons utiliser la formule suivante pour le centrage et la réduction :
+
+\[
+Z_{ij} = \frac{D_{ij} - \bar{D_{j}}}{s_{j}}
+\]
+
+où \(\bar{D_{j}}\) est la moyenne pour la variable \(j\) et \(s_{j}\) l’écart-type de la variable quantitative \(j\).
+
+```{r extrait_densite_centree_reduite, echo=FALSE}
+# Extraire les 5 premières lignes et 7 premières colonnes
+densite_cr_subset <- densite_centree_reduite [1:5,1:7]
+
+kable(densite_cr_subset, caption = "Extrait du tableau des densités centrées-réduites",booktabs=TRUE)
+``` 
+
+## Barycentre et inertie 
+### Barycentre à l'origine 
+Considérons que nous avons un ensemble de données \(X\) composé de \(n\) observations et \(p\) variables. Après le centrage et la réduction, la matrice transformée \(X'\) est définie par :
+
+\[
+X'_{ij} = \frac{D_{ij} - \bar{D_{j}}}{s_{j}}
+\]
+
+Le barycentre de \(X\) est donné par la moyenne de chaque colonne de \(X\). Calculons cette moyenne pour la variable \(j\) :
+
+\[
+\bar{D_{j}} = \frac{1}{n} \sum_{i=1}^{n} X'_{ij} = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{D_{ij} - \bar{D_{j}}}{s_{j}} \right) 
+= \frac{1}{s_{j}} \left( \frac{1}{n} \sum_{i=1}^{n} D_{ij} \right) - \frac{\bar{D_{j}}}{s_{j}} = 0
+\]
+
+Ainsi, le barycentre de chaque variable dans \(X'\) est égal à zéro.
+
+### Inertie totale 
+Considérons à nouveau la matrice de données \(X\). Après centrage et réduction, chaque élément de la matrice transformée \(X'\) est défini par :
+
+\[
+X'_{ij} = \frac{D_{ij} - \bar{D_{j}}}{s_{j}}
+\]
+
+L’inertie de l’ensemble des points \(X'\) par rapport à leur barycentre \(y_M\) est définie par :
+
+\[
+I_{Y,W} = \sum_{i=1}^{n} w_{i} \|X_{i} - y_M\|^{2}
+\]
+
+où \(y_M = \frac{\sum_{i=1}^{n} w_{i} X_{i}}{\sum_{i=1}^{n} w_{i}}\) est le barycentre pondéré. Pour les données centrées-réduites, chaque \(X'_{i}\) est déjà centré, donc le barycentre \(y_M = 0\). Par conséquent, la formule de l’inertie se simplifie à :
+
+\[
+I_{Y,W} = \sum_{i=1}^{n} w_{i} \|X'_{i}\|^{2}
+\]
+
+Si tous les poids \(w_{i}\) sont égaux (par exemple, \(w_{i} = \frac{1}{n}\)), alors l’inertie devient :
+
+\[
+I_{Y,W} = \frac{1}{n} \sum_{i=1}^{n} \|X'_{i}\|^{2}
+\]
+
+Comme chaque \(X'_{i}\) est une observation centrée-réduite et que la variance de chaque variable est 1, nous avons :
+
+\[
+\|X'_{i}\|^{2} = \sum_{j=1}^{p} (X'_{ij})^{2} = p
+\]
+
+Ainsi, l’inertie totale est :
+
+\[
+I_{Y,W} = \frac{1}{n} \sum_{i=1}^{n} p = p
+\]
+
+Ce qui montre que l’inertie totale du nuage des données centrées-réduites est égale au nombre de variables \(p\).
+
+## Types forestiers 
+
+### Inertie inter-types 
+L'inertie inter-types est calculée par :
+
+\[
+I_{inter-types} = \sum_{k=1}^{p} w_{k} \cdot n_{k}^{2}
+\]
+
+où \(p\) est le nombre de types forestiers, \(w_{k}\) est le poids du type forestier \(k\) et \(n_{k}\) est la norme euclidienne carrée pour ce type.
+
+### Coefficient de détermination R² 
+Le coefficient de détermination \( R^2 \) est donné par :
+
+\[
+R^2 = \frac{I_{inter-types}}{I_{total}}
+\]
+
+Ce qui représente la proportion de variance expliquée par les types forestiers dans la variabilité des densités de peuplement.
+
+### Pourcentage d'information 
+
+## Liens entre espèces et types forestiers 
+Nous devons vérifier que le \( R^2 \) de la partition est égal à la moyenne des \( R^2 \) des espèces. Pour cela, nous calculons le \( R^2 \) pour chaque espèce \( i \) :
+
+\[
+R^2_{i} = \frac{I_{inter,i}}{I_{total,i}}
+\]
+
+Puis, nous comparons avec :
+
+\[
+R^2_{partition} = \frac{1}{m} \sum_{i=1}^{m} R^2_{i}
+\]
+
+où \( m \) est le nombre d'espèces.
+
+```{r, echo=FALSE,include=FALSE}
+data_long <- data %>%
+  select(forest, starts_with("gen")) %>%
+  pivot_longer(cols = starts_with("gen"), names_to = "species", values_to = "count") %>%
+  group_by(forest, species) %>%
+  summarise(total_count = sum(count, na.rm = TRUE)) %>%
+  ungroup()
+data_long$species <- factor(data_long$species, levels = paste0("gen", 1:27))
+```
+
+```{r especes_forest, fig.cap = "Répartition des espèces d'arbres par type forestier"}
+# Créer le bubble plot
+ggplot(data_long, aes(x = species, y = forest, size = total_count)) +
+  geom_point(color="#0B3D0B",alpha = 0.7,) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), 
+        axis.title.x = element_blank(),  
+        axis.title.y = element_blank(),
+        plot.margin = margin(1, 1, 1, 1, "cm")) +  
+  labs(size = "Nombre total")
+```
+
+
+
+\newpage 
+
+# PARTIE 2 
+
+Nous savons que l’espace \( Y \) peut être décomposé de la manière suivante :
+\[
+\langle Y \rangle = \langle 1 \rangle + \langle Y_{\text{centré}} \rangle
+\]
+où \( \langle 1 \rangle \) est le sous-espace vectoriel engendré par le vecteur constant \( \mathbf{1} \), et \( \langle Y_{\text{centré}} \rangle \) représente le sous-espace vectoriel engendré par \( Y \) une fois centré.
+
+La projection \( \Pi_Y x^j \) peut donc être décomposée comme suit :
+\[
+\Pi_Y x^j = \Pi_1 x^j + \Pi_{Y_{\text{centré}}} x^j
+\]
+où \( \Pi_1 x^j \) est la projection de \( x^j \) sur le vecteur constant, et \( \Pi_{Y_{\text{centré}}} x^j \) est la projection de \( x^j \) sur l’espace engendré par les colonnes de \( Y_{\text{centré}} \).
+
+Cependant, la projection sur le vecteur constant, \( \Pi_1 x^j \), est égale à zéro, car \( x^j \) est une variable centrée. Autrement dit, lorsque nous projetons \( x^j \) sur le vecteur constant, nous obtenons :
+\[
+\Pi_1 x^j = 0
+\]
+En substituant cette relation dans l’équation précédente, nous obtenons :
+\[
+\Pi_Y x^j = 0 + \Pi_{Y_{\text{centré}}} x^j
+\]
+d’où il s’ensuit que :
+\[
+\Pi_Y x^j = \Pi_{Y_{\text{centré}}} x^j
+\]
+
+Ainsi, nous avons montré que, pour tout \( j \), la projection de \( x^j \) sur \( Y \) est égale à la projection de \( x^j \) sur \( Y_{\text{centré}} \).\newline
+Le fait que ces deux projections soient égales signifie que la projection sur cet espace (lié aux types forestiers) est la même qu'elle soit centrée ou non, car les types forestiers sont des variables qualitatives représentées par des indicatrices. Le centrage ne change donc pas le résultat.
+
+On a :
+\[
+\| \Pi_Y x^j \|_W^2 = \langle \Pi_Y x^j, \Pi_Y x^j \rangle_W
+\]
+La projection de \( x^j \) sur \( Y \) est donnée par :
+\[
+\Pi_Y x^j = \sum_{q=1}^{Q} w^q (\overline{x}^q - \overline{x})
+\]
+où \( \overline{x}^q \) est la moyenne pondérée de \( x^j \) pour le type forestier \( q \), et \( \overline{x} \) est la moyenne globale.
+
+Statistiquement, \( \| \Pi_Y x^j \|_W^2 \) représente la variance inter-groupes de \( x^j \), c'est-à-dire la part de la variance totale de \( x^j \) qui est expliquée par les types forestiers :
+\[
+\| \Pi_Y x^j \|_W^2 = \sum_{q=1}^{Q} w^q (\overline{x^q} - \overline{x})^2
+\]
+
+Cette expression mesure la part de la variabilité de \( x^j \) expliquée par la partition en types forestiers.
+
+
+## Programmation et calcul de \( \Pi_Y \), \( \Pi_{x_j}\) puis de \( \text{tr}(\Pi_{x_j} \Pi_Y) \) 
+
+### Calcul de \( \Pi_Y \)
+
+Le projecteur \( \Pi_Y \) est défini comme le projecteur sur l'espace généré par les colonnes de la matrice \( Y \). Mathématiquement, il est formulé comme suit :
+
+   \[
+   \Pi_Y = Y \left( Y' W Y \right)^{-1} Y' W
+   \]
+
+### Calcul de \( \Pi_{x_j}\)
+De la même manière, nous avons : 
+
+   \[
+   \Pi_{x_j} = {x_j} \left( {x_j}' W {x_j} \right)^{-1} {x_j}' W
+   \]
+
+### Calcul de \( \text{tr}(\Pi_{x_j} \Pi_Y) \)
+
+Pour chaque vecteur \( x_j \), le calcul de \( \text{tr}(\Pi_{x_j} \Pi_Y) \) implique la projection de \( x_j \) dans l'espace défini par \( Y \). Cette opération nous permet d'évaluer la quantité de variabilité dans \( x_j \) qui est expliquée par la classification en types forestiers. 
+Ainsi,\[ \text{tr}(\Pi_{x_j} \Pi_Y) = R^2 \] où \(R^2\) représente la proportion de variance expliquée par les types forestiers dans la variabilité des densités de peuplement.
+
+## Calcul de \( \text{tr}(R \Pi_Y) \) et interprétation statistique
+
+On note \[ R = X M X' W \].
+
+Alors \( \text{tr}(R \Pi_Y) \) représente la somme des variances expliquées par la partition en types forestiers, comme représenté par \( Y \), sur l'ensemble des variables contenues dans la matrice \( X \). Cette valeur constitue une mesure de l'inertie inter-types forestiers et fournit une indication globale de la quantité d'information expliquée par la classification des types forestiers sur l'ensemble des variables analysées.
+
+## Calcul de \( \text{tr}(\Pi_{x_j} \Pi_Z) \), \( \text{tr}(R \Pi_Z) \) et interprétation statistique
+
+Le projecteur \( \Pi_Z \) est défini sur l'espace des indicatrices de sols, représentées par la matrice \( Z \). Le calcul de \( \text{tr}(\Pi_{x_j} \Pi_Z) \) permet d'évaluer combien de la variabilité de \( x_j \) est expliquée par la partition en types de sols. La formule correspondante est :
+
+\[
+\text{tr}(\Pi_{x_j} \Pi_Z)
+\]
+
+En parallèle, \( \text{tr}(R \Pi_Z) \) quantifie la somme des variances expliquées par la partition en types de sols sur toutes les variables dans \( X \). Cette valeur constitue une mesure de l'inertie inter-sols et fournit une indication globale de la quantité d'information expliquée par la classification des sols sur l'ensemble des variables analysées.
+
+
+# CONCLUSION 
+Cette analyse nous a permis de mieux comprendre les dynamiques de peuplement forestier dans la forêt du bassin du Congo. En intégrant des approches statistiques robustes, nous avons pu quantifier la variabilité des espèces et leur répartition en fonction des types forestiers. Les résultats de cette étude fourniront des bases solides pour des recherches futures et des actions de conservation.
+
+
 

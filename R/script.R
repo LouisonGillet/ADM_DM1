@@ -7,15 +7,12 @@
 # Dataframe ---- 
 
 Datagenus <- read.csv("data/Datagenus.csv", sep=";")
-#str(Datagenus)
 data <- Datagenus[1:1000,] # On ne prend pas la ligne 1001 
+especes <- paste0("gen", 1:27) 
+colonnes_selectionnees <- c(especes, "surface", "forest", "geology")
+data <- data[, colonnes_selectionnees]
 
 # Partie 1 ---- 
-
-### 1.0 Sélection des colonnes des espèces
-
-especes <- paste0("gen", 1:27)
-
 #### 1.1 Calcul de la densité de peuplement pour chaque espèce (gen1 à gen27) ####
 
 densite_peuplement <- as.matrix(data[especes] / data$surface) # Conversion en matrice 
@@ -47,15 +44,151 @@ densite_centree_reduite <- (densite_peuplement - mat_moyenne) / mat_sd
 #summary(densite_centree_reduite)
 moyennes_apres_centrage <- colMeans(densite_centree_reduite)
 test_barycentre_a_l_origine <- all(abs(moyennes_apres_centrage) < 1e-10)
-test_barycentre_a_l_origine
 
 ### 1.3.2 Inertie totale (variances des colonnes proches de 1)
 # Variance par colonne 
 variances_apres_centrage <- colSums(densite_centree_reduite^2) / (n-1)
-#variances_apres_centrage
 
 # Inertie totale = somme des variances
 inertie_totale <- sum(variances_apres_centrage)
-#inertie_totale 
 
+#### 2.1 Calcul des poids, barycentres des types forestiers et normes euclidiennes de ces barycentres ####
+
+### Identification des types forestiers
+types_forestiers <- unique(data$forest)
+
+### Création d'une matrice pour les poids, barycentres et normes euclidiennes carrées
+d <- length(types_forestiers)
+poids_forestiers <- numeric(d)
+barycentres_forestiers <- matrix(0, nrow = d, ncol = p) #p=ncol(densite_centree_reduite)
+normes_euclidiennes_carre <- numeric(d)
+
+### Calcul par opérations matricielles
+
+for (i in 1:d) {
+  # Filtrer les parcelles appartenant à chaque type forestier
+  parcelles_type_forestier <- densite_centree_reduite[data$forest == types_forestiers[i], ]
+  
+  # Calculer le poids : proportion des parcelles de ce type
+  poids_forestiers[i] <- nrow(parcelles_type_forestier) / nrow(densite_centree_reduite)
+  
+  # Calcul du barycentre pour chaque type forestier (moyenne par espèce)
+  barycentres_forestiers[i, ] <- colMeans(parcelles_type_forestier)
+  
+  # Calcul de la norme euclidienne carrée pour chaque type forestier
+  normes_euclidiennes_carre[i] <- sum(barycentres_forestiers[i, ]^2)
+}
+
+#### 2.2 Calcul de l'inertie inter-types et du R2 (coefficient de détermination) #### 
+
+### Inertie inter-types 
+inertie_inter_types <- sum(poids_forestiers * normes_euclidiennes_carre)
+print(paste("Inertie inter-types :", inertie_inter_types))
+
+### Coefficient de détermination R2
+R2 <- inertie_inter_types / inertie_totale
+print(paste("Coefficient de détermination R2 :", R2))
+
+#### 2.3 Pourcentage d'information (variabilité du peuplement) ####
+pourcentage_information <- R2 * 100
+print(paste("Pourcentage d'information expliqué par la partition :", pourcentage_information, "%"))
+
+
+#### 3.1 Calcul de la variance totale et de la variance inter-types pour chaque espèce ####
+
+### Variance totale 
+variance_totale_par_espece <- colSums(densite_centree_reduite^2) / (n - 1)
+
+### Variance inter-types 
+variance_inter_types_par_espece <- numeric(ncol(densite_centree_reduite))
+
+# Boucle pour chaque espèce
+for (j in 1:ncol(densite_centree_reduite)) {
+  # On calcule la variance inter-types pour l'espèce j
+  variance_inter_types_par_espece[j] <- sum(poids_forestiers * (barycentres_forestiers[, j]^2))
+}
+
+#### 3.2 Calcul du R2 pour chaque espèce ####
+R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
+
+#### 3.3 Identification des espèces les plus et les moins liées au type forestier ####
+especes_most_liees <- names(sort(R2_par_espece, decreasing = TRUE))[1:5]  # Les 5 espèces les plus liées
+especes_least_liees <- names(sort(R2_par_espece, decreasing = FALSE))[1:5]  # Les 5 espèces les moins liées
+
+# Affichage des résultats
+print("R2 par espèce (densité de peuplement) :")
+print(R2_par_espece)
+
+print("Les 5 espèces les plus liées au type forestier :")
+print(especes_most_liees)
+
+print("Les 5 espèces les moins liées au type forestier :")
+print(especes_least_liees)
+
+#### 3.4 Calcul des R2 pour chaque espèce ####
+R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
+
+#### 3.5 Calcul de la moyenne arithmétique des R2 des espèces ####
+moyenne_R2_especes <- mean(R2_par_espece)
+
+#### 3.6 Vérification que le R2 de la partition est égal à la moyenne des R2 des variables ####
+verification_R2 <- R2 == moyenne_R2_especes
+
+# Affichage des résultats
+print(paste("R2 de la partition :", R2))
+print(paste("Moyenne des R2 des espèces :", moyenne_R2_especes))
+print(paste("Le R2 de la partition est-il égal à la moyenne des R2 des espèces ? :", verification_R2))
+
+# Partie 2 ---- 
+#### 1.1 Calcul Projection Y #### 
+
+### 1.1.1 Préliminaires : création des matrices 
+X <- densite_centree_reduite 
+dim(X)
+Y <- model.matrix(~ as.factor(forest) - 1, data=data)
+colnames(Y) <- paste("type", seq_along(levels(as.factor(data$forest))))
+W <- diag(1/n, n, n)  # Matrice de poids équipondérés
+M <- diag(1/p, p, p)  # Matrice de poids pour les variables
+
+### 1.1.2 Calcul 
+Pi_Y <- Y %*% solve(t(Y) %*% W %*% Y) %*% t(Y) %*% W  #solve donne l'inverse de Y'WY 
+
+
+#### 1.2 Calcul Pi_xj et tr(Pi_Y*Pi_xj ####
+tr_Pi_xj_PiY <- numeric(p)
+
+for (j in 1:p) {
+  x_j <- X[, j]
+  Pi_xj <- x_j %*% solve(t(x_j) %*% W %*% x_j) %*% t(x_j) %*% W
+  tr_Pi_xj_PiY[j] <- sum(diag(Pi_xj %*% Pi_Y))
+}
+sum(tr_Pi_xj_PiY)
+
+#### 1.3 Calcul de tr(RPI_Y)
+R <- X %*% M %*% t(X) %*% W 
+trace_R_Pi_Y <- sum(diag(R %*% Pi_Y))
+
+#### 2.1 Calcul de tr(Pi_xj*Pi_Z) #### 
+
+### 2.1.1 Création matrice Z 
+Z <- model.matrix(~ as.factor(geology) - 1, data=data)
+colnames(Z) <- paste0("geology",setdiff(1:6, 4)) #il n'y a pas de 4 pour geology 
+
+### 2.1.2 Calcul Pi_Z
+Pi_Z <- Z %*% solve(t(Z) %*% W %*% Z) %*% t(Z) %*% W
+
+### 2.1.3 Calcul 
+tr_Pi_xj_PiZ <- numeric(p)
+
+for (j in 1:p) {
+  x_j <- X[, j]
+  Pi_x_j <- x_j %*% solve(t(x_j) %*% W %*% x_j) %*% t(x_j) %*% W
+  tr_Pi_xj_PiZ[j] <- sum(diag(Pi_x_j %*% Pi_Z))  # trace(Pi_x_j * Pi_Z)
+}
+
+#### 2.2 Calcul de tr(RPi_Z) #### 
+tr_R_Pi_Z <- sum(diag(R %*% Pi_Z))
+
+# Sauvegarde ---- 
+save.image(file = "ressources/prepa.RData")
 

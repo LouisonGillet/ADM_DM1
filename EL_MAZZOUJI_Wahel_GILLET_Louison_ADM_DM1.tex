@@ -37,6 +37,46 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -80,6 +120,7 @@
 \fancyhead[C]{} % Au centre (laisser vide si non utilisé)
 \fancyhead[R]{M1 - SSD} % À droite
 \fancyfoot[C]{\thepage} % Numéro de page au centre du pied de page
+\usepackage{float}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -118,18 +159,36 @@ Dans le cadre de notre étude, nous avons accès à un jeu de données riche
 qui examine la diversité de 27 espèces d'arbres au sein de 1000
 parcelles forestières. Cette analyse vise à explorer la variabilité des
 densités de peuplement de ces espèces dans le contexte particulier de la
-forêt du bassin du Congo. Le jeu de données se compose de 30 variables
-quantitatives, dont les principales incluent le comptage des individus
-pour chaque espèce, la superficie de chaque parcelle ainsi que deux
-variables supplémentaires relatives au type forestier et au type
-géologique. À cela s'ajoute une variable qualitative, identifiée par un
-``code'', qui permet d'apporter des informations contextuelles sur
-chaque parcelle. Cette étude permettra d'éclairer les dynamiques
-écologiques en jeu et d'approfondir notre compréhension des interactions
-entre les espèces arborées et leur environnement.
+forêt du bassin du Congo. Dans un premier temps, il est essentiel
+d'examiner attentivement cette base de données afin de prévenir tout
+biais susceptible de compromettre l'analyse. Nous avons donc exclu la
+dernière ligne du jeu de données, car elle ne correspond pas à une
+variable pertinente. Ensuite, nous avons sélectionné les variables
+d'intérêt pour l'analyse. Le jeu de données final comprend ainsi 30
+variables quantitatives, parmi lesquelles figurent principalement le
+nombre d'individus par espèce, la superficie de chaque parcelle, ainsi
+que deux variables additionnelles relatives au type de forêt et au type
+géologique.
 
-\hypertarget{donnees-et-but}{%
-\section{DONNEES ET BUT}\label{donnees-et-but}}
+\begin{longtable}[]{@{}rrrrrr@{}}
+\caption{Extrait du jeu de données trié}\tabularnewline
+\toprule\noalign{}
+gen25 & gen26 & gen27 & surface & forest & geology \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+gen25 & gen26 & gen27 & surface & forest & geology \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+32 & 1 & 0 & 5.0 & 2 & 3 \\
+19 & 0 & 2 & 15.0 & 7 & 6 \\
+3 & 21 & 7 & 17.5 & 5 & 6 \\
+34 & 87 & 30 & 20.5 & 1 & 5 \\
+5 & 18 & 8 & 10.5 & 1 & 6 \\
+130 & 1 & 0 & 20.0 & 7 & 3 \\
+\end{longtable}
 
 \hypertarget{partie-1}{%
 \section{PARTIE 1}\label{partie-1}}
@@ -385,6 +444,11 @@ où \(m\) est le nombre d'espèces.
 \caption{Répartition des espèces d'arbres par type forestier}\label{fig:especes_forest}
 \end{figure}
 
+On observe immédiatement que les espèces 10,11,12 et 13 ainsi que les
+espèces 25 et 26 sont les plus présentes sur les différents types
+forestiers. Par ailleurs, remarquons que les types 1 et 7 sont
+clairement les types présentant le plus d'arbres et le plus d'espèces.
+
 \newpage
 
 \hypertarget{partie-2}{%
@@ -524,5 +588,196 @@ approches statistiques robustes, nous avons pu quantifier la variabilité
 des espèces et leur répartition en fonction des types forestiers. Les
 résultats de cette étude fourniront des bases solides pour des
 recherches futures et des actions de conservation.
+
+\newpage
+
+\hypertarget{annexe-code-r}{%
+\section{ANNEXE : CODE R}\label{annexe-code-r}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# En tête {-}{-}{-}{-}}
+
+\CommentTok{\# Desc : DM1 ADM Date: 02/10/2024 Auteur : EL MAZZOUJI Wahel \& GILLET Louison}
+
+\CommentTok{\# Dataframe {-}{-}{-}{-}}
+
+\NormalTok{Datagenus }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/Datagenus.csv"}\NormalTok{, }\AttributeTok{sep =} \StringTok{";"}\NormalTok{)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ Datagenus[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{1000}\NormalTok{, ]  }\CommentTok{\# On ne prend pas la ligne 1001 }
+\NormalTok{especes }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"gen"}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{27}\NormalTok{)}
+\NormalTok{colonnes\_selectionnees }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(especes, }\StringTok{"surface"}\NormalTok{, }\StringTok{"forest"}\NormalTok{, }\StringTok{"geology"}\NormalTok{)}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data[, colonnes\_selectionnees]}
+
+\CommentTok{\# Partie 1 {-}{-}{-}{-} 1.1 Calcul de la densité de peuplement pour chaque espèce (gen1}
+\CommentTok{\# à gen27) \#\#\#\#}
+
+\NormalTok{densite\_peuplement }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(data[especes]}\SpecialCharTok{/}\NormalTok{data}\SpecialCharTok{$}\NormalTok{surface)  }\CommentTok{\# Conversion en matrice }
+
+\DocumentationTok{\#\#\#\# 1.2 Centrage et réduction avec des opérations matricielles \#\#\#\#}
+
+\DocumentationTok{\#\#\# Calcul des moyennes pour chaque espèce (colonne)}
+
+\NormalTok{moyennes\_especes }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{colMeans}\NormalTok{(densite\_peuplement))}
+
+\DocumentationTok{\#\#\# Calcul des écarts{-}types pour chaque espèce (colonne)}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(densite\_peuplement)}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{ncol}\NormalTok{(densite\_peuplement)}
+\NormalTok{mat\_moyenne }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(moyennes\_especes, }\AttributeTok{nrow =}\NormalTok{ n, }\AttributeTok{ncol =}\NormalTok{ p, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# remplit chaque ligne avec la densité de la colonne}
+
+\NormalTok{sd\_especes }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{colSums}\NormalTok{((densite\_peuplement }\SpecialCharTok{{-}}\NormalTok{ mat\_moyenne)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))  }\CommentTok{\#racine de la variance sans{-}biais }
+
+\DocumentationTok{\#\#\# Centrage et réduction : on soustrait les moyennes et on divise par}
+\DocumentationTok{\#\#\# l\textquotesingle{}écart{-}type}
+
+\NormalTok{mat\_sd }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(sd\_especes, }\AttributeTok{nrow =}\NormalTok{ n, }\AttributeTok{ncol =}\NormalTok{ p, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# idem avec l\textquotesingle{}écart{-}type}
+
+\NormalTok{densite\_centree\_reduite }\OtherTok{\textless{}{-}}\NormalTok{ (densite\_peuplement }\SpecialCharTok{{-}}\NormalTok{ mat\_moyenne)}\SpecialCharTok{/}\NormalTok{mat\_sd}
+
+\DocumentationTok{\#\#\#\# 1.3 Barycentre et inertie \#\#\#\#}
+
+\DocumentationTok{\#\#\# 1.3.1 Barycentre à l\textquotesingle{}origine (moyennes des colonnes proches de 0)}
+\DocumentationTok{\#\#\# summary(densite\_centree\_reduite)}
+\NormalTok{moyennes\_apres\_centrage }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(densite\_centree\_reduite)}
+\NormalTok{test\_barycentre\_a\_l\_origine }\OtherTok{\textless{}{-}} \FunctionTok{all}\NormalTok{(}\FunctionTok{abs}\NormalTok{(moyennes\_apres\_centrage) }\SpecialCharTok{\textless{}} \FloatTok{1e{-}10}\NormalTok{)}
+
+\DocumentationTok{\#\#\# 1.3.2 Inertie totale (variances des colonnes proches de 1) Variance par}
+\DocumentationTok{\#\#\# colonne}
+\NormalTok{variances\_apres\_centrage }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(densite\_centree\_reduite}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Inertie totale = somme des variances}
+\NormalTok{inertie\_totale }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(variances\_apres\_centrage)}
+
+\DocumentationTok{\#\#\#\# 2.1 Calcul des poids, barycentres des types forestiers et normes}
+\DocumentationTok{\#\#\#\# euclidiennes de ces barycentres \#\#\#\#}
+
+\DocumentationTok{\#\#\# Identification des types forestiers}
+\NormalTok{types\_forestiers }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{forest)}
+
+\DocumentationTok{\#\#\# Création d\textquotesingle{}une matrice pour les poids, barycentres et normes euclidiennes}
+\DocumentationTok{\#\#\# carrées}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(types\_forestiers)}
+\NormalTok{poids\_forestiers }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(d)}
+\NormalTok{barycentres\_forestiers }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{nrow =}\NormalTok{ d, }\AttributeTok{ncol =}\NormalTok{ p)  }\CommentTok{\#p=ncol(densite\_centree\_reduite)}
+\NormalTok{normes\_euclidiennes\_carre }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(d)}
+
+\DocumentationTok{\#\#\# Calcul par opérations matricielles}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{d) \{}
+    \CommentTok{\# Filtrer les parcelles appartenant à chaque type forestier}
+\NormalTok{    parcelles\_type\_forestier }\OtherTok{\textless{}{-}}\NormalTok{ densite\_centree\_reduite[data}\SpecialCharTok{$}\NormalTok{forest }\SpecialCharTok{==}\NormalTok{ types\_forestiers[i],}
+\NormalTok{        ]}
+
+    \CommentTok{\# Calculer le poids : proportion des parcelles de ce type}
+\NormalTok{    poids\_forestiers[i] }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(parcelles\_type\_forestier)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(densite\_centree\_reduite)}
+
+    \CommentTok{\# Calcul du barycentre pour chaque type forestier (moyenne par espèce)}
+\NormalTok{    barycentres\_forestiers[i, ] }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(parcelles\_type\_forestier)}
+
+    \CommentTok{\# Calcul de la norme euclidienne carrée pour chaque type forestier}
+\NormalTok{    normes\_euclidiennes\_carre[i] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(barycentres\_forestiers[i, ]}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{\}}
+
+\DocumentationTok{\#\#\#\# 2.2 Calcul de l\textquotesingle{}inertie inter{-}types et du R2 (coefficient de}
+\DocumentationTok{\#\#\#\# détermination) \#\#\#\#}
+
+\DocumentationTok{\#\#\# Inertie inter{-}types}
+\NormalTok{inertie\_inter\_types }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(poids\_forestiers }\SpecialCharTok{*}\NormalTok{ normes\_euclidiennes\_carre)}
+
+\DocumentationTok{\#\#\# Coefficient de détermination R2}
+\NormalTok{R2 }\OtherTok{\textless{}{-}}\NormalTok{ inertie\_inter\_types}\SpecialCharTok{/}\NormalTok{inertie\_totale}
+
+\DocumentationTok{\#\#\#\# 2.3 Pourcentage d\textquotesingle{}information (variabilité du peuplement) \#\#\#\#}
+\NormalTok{pourcentage\_information }\OtherTok{\textless{}{-}}\NormalTok{ R2 }\SpecialCharTok{*} \DecValTok{100}
+
+\DocumentationTok{\#\#\#\# 3.1 Calcul de la variance totale et de la variance inter{-}types pour chaque}
+\DocumentationTok{\#\#\#\# espèce \#\#\#\#}
+
+\DocumentationTok{\#\#\# Variance totale}
+\NormalTok{variance\_totale\_par\_espece }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(densite\_centree\_reduite}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+
+\DocumentationTok{\#\#\# Variance inter{-}types}
+\NormalTok{variance\_inter\_types\_par\_espece }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(densite\_centree\_reduite))}
+
+\CommentTok{\# Boucle pour chaque espèce}
+\ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(densite\_centree\_reduite)) \{}
+    \CommentTok{\# On calcule la variance inter{-}types pour l\textquotesingle{}espèce j}
+\NormalTok{    variance\_inter\_types\_par\_espece[j] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(poids\_forestiers }\SpecialCharTok{*}\NormalTok{ (barycentres\_forestiers[,}
+\NormalTok{        j]}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{\}}
+
+\DocumentationTok{\#\#\#\# 3.2 Calcul du R2 pour chaque espèce \#\#\#\#}
+\NormalTok{R2\_par\_espece }\OtherTok{\textless{}{-}}\NormalTok{ variance\_inter\_types\_par\_espece}\SpecialCharTok{/}\NormalTok{variance\_totale\_par\_espece}
+
+\DocumentationTok{\#\#\#\# 3.3 Identification des espèces les plus et les moins liées au type}
+\DocumentationTok{\#\#\#\# forestier \#\#\#\#}
+\NormalTok{especes\_most\_liees }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(R2\_par\_espece, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{))[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]  }\CommentTok{\# Les 5 espèces les plus liées}
+\NormalTok{especes\_least\_liees }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(R2\_par\_espece, }\AttributeTok{decreasing =} \ConstantTok{FALSE}\NormalTok{))[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]  }\CommentTok{\# Les 5 espèces les moins liées}
+
+\DocumentationTok{\#\#\#\# 3.4 Calcul des R2 pour chaque espèce \#\#\#\#}
+\NormalTok{R2\_par\_espece }\OtherTok{\textless{}{-}}\NormalTok{ variance\_inter\_types\_par\_espece}\SpecialCharTok{/}\NormalTok{variance\_totale\_par\_espece}
+
+\DocumentationTok{\#\#\#\# 3.5 Calcul de la moyenne arithmétique des R2 des espèces \#\#\#\#}
+\NormalTok{moyenne\_R2\_especes }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(R2\_par\_espece)}
+
+\DocumentationTok{\#\#\#\# 3.6 Vérification que le R2 de la partition est égal à la moyenne des R2}
+\DocumentationTok{\#\#\#\# des variables \#\#\#\#}
+\NormalTok{verification\_R2 }\OtherTok{\textless{}{-}}\NormalTok{ R2 }\SpecialCharTok{==}\NormalTok{ moyenne\_R2\_especes}
+
+\CommentTok{\# Partie 2 {-}{-}{-}{-} 1.1 Calcul Projection Y \#\#\#\#}
+
+\DocumentationTok{\#\#\# 1.1.1 Préliminaires : création des matrices}
+\NormalTok{X }\OtherTok{\textless{}{-}}\NormalTok{ densite\_centree\_reduite}
+\FunctionTok{dim}\NormalTok{(X)}
+\NormalTok{Y }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{as.factor}\NormalTok{(forest) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\AttributeTok{data =}\NormalTok{ data)}
+\FunctionTok{colnames}\NormalTok{(Y) }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"type"}\NormalTok{, }\FunctionTok{seq\_along}\NormalTok{(}\FunctionTok{levels}\NormalTok{(}\FunctionTok{as.factor}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{forest))))}
+\NormalTok{W }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{n, n, n)  }\CommentTok{\# Matrice de poids équipondérés}
+\NormalTok{M }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{p, p, p)  }\CommentTok{\# Matrice de poids pour les variables}
+
+\DocumentationTok{\#\#\# 1.1.2 Calcul}
+\NormalTok{Pi\_Y }\OtherTok{\textless{}{-}}\NormalTok{ Y }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(Y) }\SpecialCharTok{\%*\%}\NormalTok{ W }\SpecialCharTok{\%*\%}\NormalTok{ Y) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(Y) }\SpecialCharTok{\%*\%}\NormalTok{ W  }\CommentTok{\#solve donne l\textquotesingle{}inverse de Y\textquotesingle{}WY }
+
+
+\DocumentationTok{\#\#\#\# 1.2 Calcul Pi\_xj et tr(Pi\_Y*Pi\_xj \#\#\#\#}
+\NormalTok{tr\_Pi\_xj\_PiY }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(p)}
+
+\ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{p) \{}
+\NormalTok{    x\_j }\OtherTok{\textless{}{-}}\NormalTok{ X[, j]}
+\NormalTok{    Pi\_xj }\OtherTok{\textless{}{-}}\NormalTok{ x\_j }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(x\_j) }\SpecialCharTok{\%*\%}\NormalTok{ W }\SpecialCharTok{\%*\%}\NormalTok{ x\_j) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(x\_j) }\SpecialCharTok{\%*\%}\NormalTok{ W}
+\NormalTok{    tr\_Pi\_xj\_PiY[j] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{diag}\NormalTok{(Pi\_xj }\SpecialCharTok{\%*\%}\NormalTok{ Pi\_Y))}
+\NormalTok{\}}
+\FunctionTok{sum}\NormalTok{(tr\_Pi\_xj\_PiY)}
+
+\DocumentationTok{\#\#\#\# 1.3 Calcul de tr(RPI\_Y)}
+\NormalTok{R }\OtherTok{\textless{}{-}}\NormalTok{ X }\SpecialCharTok{\%*\%}\NormalTok{ M }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ W}
+\NormalTok{trace\_R\_Pi\_Y }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{diag}\NormalTok{(R }\SpecialCharTok{\%*\%}\NormalTok{ Pi\_Y))}
+
+\DocumentationTok{\#\#\#\# 2.1 Calcul de tr(Pi\_xj*Pi\_Z) \#\#\#\#}
+
+\DocumentationTok{\#\#\# 2.1.1 Création matrice Z}
+\NormalTok{Z }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{as.factor}\NormalTok{(geology) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\AttributeTok{data =}\NormalTok{ data)}
+\FunctionTok{colnames}\NormalTok{(Z) }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"geology"}\NormalTok{, }\FunctionTok{setdiff}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{, }\DecValTok{4}\NormalTok{))  }\CommentTok{\#il n\textquotesingle{}y a pas de 4 pour geology }
+
+\DocumentationTok{\#\#\# 2.1.2 Calcul Pi\_Z}
+\NormalTok{Pi\_Z }\OtherTok{\textless{}{-}}\NormalTok{ Z }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(Z) }\SpecialCharTok{\%*\%}\NormalTok{ W }\SpecialCharTok{\%*\%}\NormalTok{ Z) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(Z) }\SpecialCharTok{\%*\%}\NormalTok{ W}
+
+\DocumentationTok{\#\#\# 2.1.3 Calcul}
+\NormalTok{tr\_Pi\_xj\_PiZ }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(p)}
+
+\ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{p) \{}
+\NormalTok{    x\_j }\OtherTok{\textless{}{-}}\NormalTok{ X[, j]}
+\NormalTok{    Pi\_x\_j }\OtherTok{\textless{}{-}}\NormalTok{ x\_j }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(x\_j) }\SpecialCharTok{\%*\%}\NormalTok{ W }\SpecialCharTok{\%*\%}\NormalTok{ x\_j) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(x\_j) }\SpecialCharTok{\%*\%}\NormalTok{ W}
+\NormalTok{    tr\_Pi\_xj\_PiZ[j] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{diag}\NormalTok{(Pi\_x\_j }\SpecialCharTok{\%*\%}\NormalTok{ Pi\_Z))  }\CommentTok{\# trace(Pi\_x\_j * Pi\_Z)}
+\NormalTok{\}}
+
+\DocumentationTok{\#\#\#\# 2.2 Calcul de tr(RPi\_Z) \#\#\#\#}
+\NormalTok{tr\_R\_Pi\_Z }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{diag}\NormalTok{(R }\SpecialCharTok{\%*\%}\NormalTok{ Pi\_Z))}
+
+\CommentTok{\# Sauvegarde pour Rmd {-}{-}{-}{-}}
+\FunctionTok{save.image}\NormalTok{(}\AttributeTok{file =} \StringTok{"ressources/prepa.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 
 \end{document}

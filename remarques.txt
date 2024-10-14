@@ -4,3 +4,6 @@ Rapport :
  - indiquer qu'on supprime dernière ligne (partie dataframe)
  - indiquer cas équipondéré pour preuve barycentre 
  - partie pour aller plus loin qui reprend partie 1 pour geology 
+ - pour Données et but : préciser variables ordinales? 
+ - pb pour placement figure 1 avec le texte
+ - notation pour les Xij/xij 

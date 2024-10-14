@@ -83,16 +83,12 @@ for (i in 1:d) {
 
 ### Inertie inter-types 
 inertie_inter_types <- sum(poids_forestiers * normes_euclidiennes_carre)
-print(paste("Inertie inter-types :", inertie_inter_types))
 
 ### Coefficient de détermination R2
 R2 <- inertie_inter_types / inertie_totale
-print(paste("Coefficient de détermination R2 :", R2))
 
 #### 2.3 Pourcentage d'information (variabilité du peuplement) ####
 pourcentage_information <- R2 * 100
-print(paste("Pourcentage d'information expliqué par la partition :", pourcentage_information, "%"))
-
 
 #### 3.1 Calcul de la variance totale et de la variance inter-types pour chaque espèce ####
 
@@ -115,16 +111,6 @@ R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
 especes_most_liees <- names(sort(R2_par_espece, decreasing = TRUE))[1:5]  # Les 5 espèces les plus liées
 especes_least_liees <- names(sort(R2_par_espece, decreasing = FALSE))[1:5]  # Les 5 espèces les moins liées
 
-# Affichage des résultats
-print("R2 par espèce (densité de peuplement) :")
-print(R2_par_espece)
-
-print("Les 5 espèces les plus liées au type forestier :")
-print(especes_most_liees)
-
-print("Les 5 espèces les moins liées au type forestier :")
-print(especes_least_liees)
-
 #### 3.4 Calcul des R2 pour chaque espèce ####
 R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
 
@@ -133,11 +119,6 @@ moyenne_R2_especes <- mean(R2_par_espece)
 
 #### 3.6 Vérification que le R2 de la partition est égal à la moyenne des R2 des variables ####
 verification_R2 <- R2 == moyenne_R2_especes
-
-# Affichage des résultats
-print(paste("R2 de la partition :", R2))
-print(paste("Moyenne des R2 des espèces :", moyenne_R2_especes))
-print(paste("Le R2 de la partition est-il égal à la moyenne des R2 des espèces ? :", verification_R2))
 
 # Partie 2 ---- 
 #### 1.1 Calcul Projection Y #### 
@@ -189,6 +170,6 @@ for (j in 1:p) {
 #### 2.2 Calcul de tr(RPi_Z) #### 
 tr_R_Pi_Z <- sum(diag(R %*% Pi_Z))
 
-# Sauvegarde ---- 
+# Sauvegarde pour Rmd ---- 
 save.image(file = "ressources/prepa.RData")
 

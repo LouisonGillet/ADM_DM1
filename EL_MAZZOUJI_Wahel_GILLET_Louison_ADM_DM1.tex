@@ -118,9 +118,22 @@
 \fancyhf{} % Efface les en-têtes et pieds de page par défaut
 \fancyhead[L]{EL MAZZOUJI Wahel, GILLET Louison} % À gauche
 \fancyhead[C]{} % Au centre (laisser vide si non utilisé)
-\fancyhead[R]{M1 - SSD} % À droite
+\fancyhead[R]{HAX711X - M1 SSD} % À droite
 \fancyfoot[C]{\thepage} % Numéro de page au centre du pied de page
 \usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -128,13 +141,13 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Trouver un titre évocateur et moins formel},
+  pdftitle={TP1 : Inertie des peuplements forestiers},
   pdfauthor={EL MAZZOUJI Wahel; GILLET Louison},
   pdflang={true},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Trouver un titre évocateur et moins formel}
+\title{TP1 : Inertie des peuplements forestiers}
 \author{EL MAZZOUJI Wahel \and GILLET Louison}
 \date{2024/2025}
 
@@ -203,12 +216,12 @@ Nous cherchons à calculer la densité de peuplement de chaque espèce par
 unité de surface. Pour chaque parcelle, la densité est donnée par :
 
 \[
-D_{ij} = \frac{N_{ij}}{S_{j}}
+d_{ij} = \frac{n_{ij}}{S_{i}}
 \]
 
-où \(D_{ij}\) est la densité pour l'espèce \(i\) dans la parcelle \(j\),
-\(N_{ij}\) est le nombre d'individus de l'espèce \(i\) dans la parcelle
-\(j\) et \(S_{j}\) est la surface de la parcelle \(j\).
+où \(d_{ij}\) est la densité pour l'espèce \(j\) dans la parcelle \(i\),
+\(n_{ij}\) est le nombre d'individus de l'espèce \(j\) dans la parcelle
+\(i\) et \(S_{i}\) est la surface de la parcelle \(i\).
 
 Nous utilisons des densités plutôt que des comptages car cela permet de
 normaliser les données par rapport à la taille de la parcelle, ce qui
@@ -237,16 +250,18 @@ gen1 & gen2 & gen3 & gen4 & gen5 & gen6 & gen7 \\
 \subsubsection{Densité
 centrée-réduite}\label{densituxe9-centruxe9e-ruxe9duite}}
 
-Nous devons centrer et réduire les variables quantitatives pour mieux
-comparer celles qui décrivent les différentes densités. Nous allons
-utiliser la formule suivante pour le centrage et la réduction :
+Nous devons normaliser et centrer les variables quantitatives afin de
+faciliter la comparaison de celles qui décrivent les différentes
+densités. Nous allons utiliser la formule suivante pour le centrage et
+la réduction :
 
 \[
-Z_{ij} = \frac{D_{ij} - \bar{D_{j}}}{s_{j}}
+d_{ij}\rightarrow z_{ij} = \frac{d_{ij} - \bar{d_{j}}}{\sigma_{j}}
 \]
 
-où \(\bar{D_{j}}\) est la moyenne pour la variable \(j\) et \(s_{j}\)
-l'écart-type de la variable quantitative \(j\).
+où \(\bar{d_{j}}\) est la moyenne des densités pour la variable \(j\) et
+\(\sigma_{j}\) l'écart-type de la variable quantitative \(j\). Par la
+suite, nous n'utiliserons plus que les variables centrées-réduites.
 
 \begin{longtable}[]{@{}
   >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1429}}
@@ -314,73 +329,69 @@ gen7
 \hypertarget{barycentre-uxe0-lorigine}{%
 \subsubsection{Barycentre à l'origine}\label{barycentre-uxe0-lorigine}}
 
-Considérons que nous avons un ensemble de données \(X\) composé de \(n\)
-observations et \(p\) variables. Après le centrage et la réduction, la
-matrice transformée \(X'\) est définie par :
+Considérons que nous avons un ensemble de données présenté sous forme
+d'une matrice
+\(X = \left( x_{ij} \right)_{\substack{1 \leq i \leq n \\ 1 \leq j \leq p}}\)
+où \(x_{ij}\) représente la densité de l'espèce \(j\) dans la parcelle
+\(i\). Après le centrage et la réduction, la matrice transformée \(X'\)
+est alors définie par :
 
 \[
-X'_{ij} = \frac{D_{ij} - \bar{D_{j}}}{s_{j}}
+x_{ij} \rightarrow x'_{ij} = z_{ij} =\frac{d_{ij} - \bar{d_{j}}}{\sigma_{j}}
 \]
 
-Le barycentre de \(X\) est donné par la moyenne de chaque colonne de
-\(X\). Calculons cette moyenne pour la variable \(j\) :
+Le barycentre du nuage des densités représenté par \(X'\) est donné par
+la moyenne de chaque colonne de \(X'\). Calculons cette moyenne
+\(\forall \, j \in [1, p]\) :
 
 \[
-\bar{D_{j}} = \frac{1}{n} \sum_{i=1}^{n} X'_{ij} = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{D_{ij} - \bar{D_{j}}}{s_{j}} \right) 
-= \frac{1}{s_{j}} \left( \frac{1}{n} \sum_{i=1}^{n} D_{ij} \right) - \frac{\bar{D_{j}}}{s_{j}} = 0
+\bar{x'_{j}} = \frac{1}{n} \sum_{i=1}^{n} x'_{ij} = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{x_{ij} - \bar{x_{j}}}{\sigma_{j}} \right) 
+= \frac{1}{\sigma_{j}} \left( \frac{1}{n} \sum_{i=1}^{n} x_{ij} \right) - \frac{\bar{x_{j}}}{\sigma_{j}} = 0
 \]
 
-Ainsi, le barycentre de chaque variable dans \(X'\) est égal à zéro.
+Ainsi, comme chaque moyenne est nulle, le barycentre du nuage se trouve
+à l'origine.
 
 \hypertarget{inertie-totale}{%
 \subsubsection{Inertie totale}\label{inertie-totale}}
 
-Considérons à nouveau la matrice de données \(X\). Après centrage et
-réduction, chaque élément de la matrice transformée \(X'\) est défini
-par :
+Considérons à nouveau la matrice de données \(X'\).
+
+L'inertie de l'ensemble des points \(x'_{ij}\), autour de leur
+barycentre donné par \(\bar{x'}\) (vecteur contenant la moyenne des
+densités pour chaque espèce \(j\)), est définie comme la somme des
+carrés des écarts entre les densités observées et leur barycentre. Ainsi
+:
 
 \[
-X'_{ij} = \frac{D_{ij} - \bar{D_{j}}}{s_{j}}
+\text{In}_O\{x_i, w_i\}_i = \sum_{i=1}^{n} w_{i} \|x'_{i} - \bar{x'}\|^{2} \: \text où \: \bar{x'} = \frac{\sum_{i=1}^{n} w_{i} x_{i}}{\sum_{i=1}^{n} w_{i}}
 \]
 
-L'inertie de l'ensemble des points \(X'\) par rapport à leur barycentre
-\(y_M\) est définie par :
+Nous supposons que le cas présent est équipondéré par conséquent
+\(w_{i} = \frac{1}{n} \implies {\sum_{i=1}^{n} w_{i}}=1\). De plus, nous
+avons vu précédemment que le barycentre du nuage se trouve à l'origine
+d'où \(\bar{x'} = 0\). On a alors :
 
 \[
-I_{Y,W} = \sum_{i=1}^{n} w_{i} \|X_{i} - y_M\|^{2}
+\text{In}_O\{x_i, w_i\}_i = \sum_{i=1}^{n} w_{i} \|x'_{i}\|^{2} = \frac{1}{n} \sum_{i=1}^{n} \|x'_{i}\|^{2}
 \]
 
-où \(y_M = \frac{\sum_{i=1}^{n} w_{i} X_{i}}{\sum_{i=1}^{n} w_{i}}\) est
-le barycentre pondéré. Pour les données centrées-réduites, chaque
-\(X'_{i}\) est déjà centré, donc le barycentre \(y_M = 0\). Par
-conséquent, la formule de l'inertie se simplifie à :
+Comme chaque \(x'_{i}\) est une observation centrée-réduite, nous avons
+:
 
 \[
-I_{Y,W} = \sum_{i=1}^{n} w_{i} \|X'_{i}\|^{2}
-\]
-
-Si tous les poids \(w_{i}\) sont égaux (par exemple,
-\(w_{i} = \frac{1}{n}\)), alors l'inertie devient :
-
-\[
-I_{Y,W} = \frac{1}{n} \sum_{i=1}^{n} \|X'_{i}\|^{2}
-\]
-
-Comme chaque \(X'_{i}\) est une observation centrée-réduite et que la
-variance de chaque variable est 1, nous avons :
-
-\[
-\|X'_{i}\|^{2} = \sum_{j=1}^{p} (X'_{ij})^{2} = p
+\|x'_{i}\|^{2} = \sum_{j=1}^{p} (x'_{ij})^{2} = p
 \]
 
 Ainsi, l'inertie totale est :
 
 \[
-I_{Y,W} = \frac{1}{n} \sum_{i=1}^{n} p = p
+\text{In}_O\{x_i, w_i\}_i = \frac{1}{n} \sum_{i=1}^{n} p = \frac{1}{n} \times np = p 
 \]
 
-Ce qui montre que l'inertie totale du nuage des données
-centrées-réduites est égale au nombre de variables \(p\).
+Cela montre que l'inertie totale du nuage des données centrées-réduites
+est égale au nombre de variables \(p\). En l'occurrence, le nombre de
+variables p équivaut au nombre d'espèces qui est 27.
 
 \hypertarget{types-forestiers}{%
 \subsection{Types forestiers}\label{types-forestiers}}

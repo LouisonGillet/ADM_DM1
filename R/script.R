@@ -108,16 +108,13 @@ for (j in 1:ncol(densite_centree_reduite)) {
 R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
 
 #### 3.3 Identification des espèces les plus et les moins liées au type forestier ####
-especes_most_liees <- names(sort(R2_par_espece, decreasing = TRUE))[1:5]  # Les 5 espèces les plus liées
-especes_least_liees <- names(sort(R2_par_espece, decreasing = FALSE))[1:5]  # Les 5 espèces les moins liées
+especes_most_liees <- (sort(R2_par_espece, decreasing = TRUE))[1:5]  # Les 5 espèces les plus liées
+especes_least_liees <- (sort(R2_par_espece, decreasing = FALSE))[1:5]  # Les 5 espèces les moins liées
 
-#### 3.4 Calcul des R2 pour chaque espèce ####
-R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
-
-#### 3.5 Calcul de la moyenne arithmétique des R2 des espèces ####
+#### 3.4 Calcul de la moyenne arithmétique des R2 des espèces ####
 moyenne_R2_especes <- mean(R2_par_espece)
 
-#### 3.6 Vérification que le R2 de la partition est égal à la moyenne des R2 des variables ####
+#### 3.5 Vérification que le R2 de la partition est égal à la moyenne des R2 des variables ####
 verification_R2 <- R2 == moyenne_R2_especes
 
 # Partie 2 ---- 
@@ -134,7 +131,6 @@ M <- diag(1/p, p, p)  # Matrice de poids pour les variables
 ### 1.1.2 Calcul 
 Pi_Y <- Y %*% solve(t(Y) %*% W %*% Y) %*% t(Y) %*% W  #solve donne l'inverse de Y'WY 
 
-
 #### 1.2 Calcul Pi_xj et tr(Pi_Y*Pi_xj ####
 tr_Pi_xj_PiY <- numeric(p)
 
@@ -143,7 +139,6 @@ for (j in 1:p) {
   Pi_xj <- x_j %*% solve(t(x_j) %*% W %*% x_j) %*% t(x_j) %*% W
   tr_Pi_xj_PiY[j] <- sum(diag(Pi_xj %*% Pi_Y))
 }
-sum(tr_Pi_xj_PiY)
 
 #### 1.3 Calcul de tr(RPI_Y)
 R <- X %*% M %*% t(X) %*% W 

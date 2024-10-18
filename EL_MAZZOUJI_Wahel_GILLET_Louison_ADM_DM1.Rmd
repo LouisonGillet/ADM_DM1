@@ -144,7 +144,7 @@ L'inertie de l'ensemble des points \(x'_{ij}\), autour de leur barycentre donné
 \]
 
 Nous supposons que le cas présent est équipondéré par conséquent \(w_{i} = \frac{1}{n} \implies {\sum_{i=1}^{n} w_{i}}=1\).
-De plus, nous avons vu précédemment que le barycentre du nuage se trouve à l'origine d'où \(\bar{x'} = 0\).
+De plus, nous avons vu précédemment que le barycentre du nuage se trouvait à l'origine d'où \(\bar{x'} = 0\).
 On a alors : 
 
 \[
@@ -166,41 +166,31 @@ Ainsi, l’inertie totale est :
 Cela montre que l’inertie totale du nuage des données centrées-réduites est égale au nombre de variables \(p\). En l'occurrence, le nombre de variables p équivaut au nombre d'espèces, soit 27.
 
 ## Types forestiers 
-
 ### Inertie inter-types 
 L'inertie inter-types est calculée par :
 
 \[
-I_{inter-types} = \sum_{k=1}^{p} w_{k} \cdot n_{k}^{2}
+I_{inter-types} = \sum_{k=1}^{K} w_{k} \cdot n_{k}^{2}
 \]
 
-où \(p\) est le nombre de types forestiers, \(w_{k}\) est le poids du type forestier \(k\) et \(n_{k}\) est la norme euclidienne carrée pour ce type.
+où \(K\) est le nombre de types forestiers, \(w_{k}\) est le poids du type forestier \(k\) et \(n_{k}\) est la norme euclidienne carrée pour ce type. On obtient `r inertie_inter_types` \(\approx \) `r round(inertie_inter_types,2)`.
 
-### Coefficient de détermination R² 
+### Coefficient de détermination R²
 Le coefficient de détermination \( R^2 \) est donné par :
 
 \[
-R^2 = \frac{I_{inter-types}}{I_{total}}
+R^2 = \frac{I_{inter-types}}{I_{total}} 
 \]
 
-Ce qui représente la proportion de variance expliquée par les types forestiers dans la variabilité des densités de peuplement.
+``` {r}
+R2_arrondi <- round(R2,2)
+Pinfo <- R2_arrondi*100
+```
 
-### Pourcentage d'information 
+Ce qui représente la proportion de variance expliquée par les types forestiers dans la variabilité des densités de peuplement. Le résultat obtenu est `r R2` \(\approx \) `r R2_arrondi`. Cela signifie qu'environ `r Pinfo`% de la variabilité des densités de peuplement est expliquée par les types forestiers. 
 
 ## Liens entre espèces et types forestiers 
-Nous devons vérifier que le \( R^2 \) de la partition est égal à la moyenne des \( R^2 \) des espèces. Pour cela, nous calculons le \( R^2 \) pour chaque espèce \( i \) :
-
-\[
-R^2_{i} = \frac{I_{inter,i}}{I_{total,i}}
-\]
-
-Puis, nous comparons avec :
-
-\[
-R^2_{partition} = \frac{1}{m} \sum_{i=1}^{m} R^2_{i}
-\]
-
-où \( m \) est le nombre d'espèces.
+Nous nous intéressons désormais aux liens entre les espèces et les types forestiers. On se propose alors de dresser une figure afin de visualiser dans un premier temps la répartition des espèces selon le type forestier. 
 
 ```{r, echo=FALSE,include=FALSE}
 data_long <- data %>%
@@ -212,7 +202,7 @@ data_long <- data %>%
 data_long$species <- factor(data_long$species, levels = paste0("gen", 1:27))
 ```
 
-```{r especes_forest, fig.cap = "Répartition des espèces d'arbres par type forestier",fig_pos='h!'}
+```{r especes_forest, fig.cap = "Répartition des espèces d'arbres par type forestier",fig.pos='H'}
 # Créer le bubble plot
 ggplot(data_long, aes(x = species, y = forest, size = total_count)) +
   geom_point(color="#0B3D0B",alpha = 0.7,) +
@@ -224,11 +214,58 @@ ggplot(data_long, aes(x = species, y = forest, size = total_count)) +
   labs(size = "Nombre total")
 ```
 
-On observe immédiatement que les espèces 10,11,12 et 13 ainsi que les espèces 25 et 26 sont les plus présentes sur les différents types forestiers. Par ailleurs, remarquons que les types 1 et 7 sont clairement les types présentant le plus d'arbres et le plus d'espèces.      
+Nous remarquons par la figure 1 que les espèces 10,11,25 et 26 semblent être les plus liées aux types forestiers. En effet, elles sont beaucoup plus présentes sur les types 1 et 7. A l'inverse, les espèces 2 à 6 ne semblent pas être liées au type forestier. Cependant, nous verrons après divers calcul et une analyse plus profonde que notre intuition peut parfois nous jouer des tours.
+
+Nous voulons donc calculer le \( R^2 \) de chaque variable densité de peuplement où 
+
+\[
+R^2 = \frac{\text{variance inter-types forestiers}}{\text{variance totale}}
+\]
+
+Après calcul, nous isolons les 5 espèces les plus (respectivement moins) liées aux types : 
+```{r echo=FALSE}
+especes_most_liees <- round(especes_most_liees,4)
+kable(as.data.frame(t(especes_most_liees)), 
+      caption = "R² des 5 espèces les plus liées au type", 
+      booktabs = TRUE)
+```
+
+```{r echo=FALSE}
+especes_least_liees <- round(especes_least_liees,4)
+kable(as.data.frame(t(especes_least_liees)), 
+      caption = "R² des 5 espèces les moins liées au type", 
+      booktabs = TRUE)
+```
+
+Nous constatons alors que nos premières intuitions étaient plus ou moins bonnes. En effet, les espèces 25 et 11 sont les plus liées au type forestier tandis que l'espèce 6 est la moins liée au type forestier. En revanche, nous avions supposé que l'espèce 2 n'était pas liée au type. Or, la table 3 nous indique qu'elle est clairement une des espèces la plus liée au type forestier car environ 13% de la variabilité de sa densité de peuplement est expliquée par le type forestier.   
+
+Nous devons vérifier que le \( R^2 \) de la partition est égal à la moyenne des \( R^2 \) des espèces. Pour cela, nous calculons le \( R^2 \) pour chaque espèce \( j \) :
+
+\[
+R^2_{j} = \frac{I_{inter-types,j}}{I_{total,j}}
+\]
+
+Puis, nous comparons avec :
+
+\[
+R^2_{partition} = \frac{1}{p} \sum_{j=1}^{p} R^2_{j}
+\]
+
+où \( p \) est le nombre d'espèces (27). 
+
+Nous retrouvons bien informatiquement que le \( R^2 \) de la partition est égal à la moyenne des \( R^2 \) des espèces, comme le montre l'extrait de code suivant :
+
+```{r echo=TRUE}
+print(R2)
+print(moyenne_R2_especes)
+```
+
+(le codage des variables est fourni en [Annexe](#annexe))
 
 \newpage 
 
 # PARTIE 2 
+## Préliminaires 
 
 Nous savons que l’espace \( Y \) peut être décomposé de la manière suivante :
 \[
@@ -277,7 +314,6 @@ Cette expression mesure la part de la variabilité de \( x^j \) expliquée par l
 
 
 ## Programmation et calcul de \( \Pi_Y \), \( \Pi_{x_j}\) puis de \( \text{tr}(\Pi_{x_j} \Pi_Y) \) 
-
 ### Calcul de \( \Pi_Y \)
 
 Le projecteur \( \Pi_Y \) est défini comme le projecteur sur l'espace généré par les colonnes de la matrice \( Y \). Mathématiquement, il est formulé comme suit :
@@ -293,37 +329,71 @@ De la même manière, nous avons :
    \Pi_{x_j} = {x_j} \left( {x_j}' W {x_j} \right)^{-1} {x_j}' W
    \]
 
-### Calcul de \( \text{tr}(\Pi_{x_j} \Pi_Y) \) ATTENTION REFAIRE DEMO AVEC VRAIES VALEURS
+### Calcul de \( \text{tr}(\Pi_{x_j} \Pi_Y) \)
 
 Pour chaque vecteur \( x_j \), le calcul de \( \text{tr}(\Pi_{x_j} \Pi_Y) \) implique la projection de \( x_j \) dans l'espace défini par \( Y \). Cette opération nous permet d'évaluer la quantité de variabilité dans \( x_j \) qui est expliquée par la classification en types forestiers. 
 Ainsi,
 
 \[ 
-\begin{align} \text{tr}(\Pi_{x_j} \Pi_Y) & = \text{tr} ({x_j} \left( {x_j}' W {x_j} \right)^{-1} {x_j}' W \Pi_Y) \\
+\begin{aligned} 
+\text{tr}(\Pi_{x_j} \Pi_Y) & = \text{tr} ({x_j} \left( {x_j}' W {x_j} \right)^{-1} {x_j}' W \Pi_Y) \\
 & = \left( {x_j}' W {x_j} \right)^{-1} \text{tr} ({x_j}{x_j}' W \Pi_Y)\\
+& = \frac{1}{\|x_j\|^2}  \text{tr} ({x_j}' W \Pi_Y{x_j})\\
 & = \frac{1}{\|x_j\|^2}  \langle x_j, \Pi_Y x_j \rangle_W \\
-&= \frac{\|\Pi_Y x_j\|_W^2}{\|x_j\|^2} = R^2(x_j \mid Y)
-\end{align}
-
+& = \frac{\|\Pi_Y x_j\|_W^2}{\|x_j\|^2}\\
+& = R^2({x_j} \mid Y)
+\end{aligned}
 \] 
 
-où \(R^2\) représente la proportion de variance expliquée par les types forestiers dans la variabilité des densités de peuplement.
+où \(R^2(x_j \mid Y)\) représente la part de variabilité de \({x_j}\) qui est due à Y. 
+En somme, \(\text{tr}(\Pi_{x_j} \Pi_Y)\) mesure la part de variabilité des densités d'une espèce due au type forestier.
+
+```{r ,echo=FALSE}
+valeurs_selection <- round(tr_Pi_xj_PiY[c(2, 6, 11, 14, 20, 25)],4)
+
+# Créer un data frame avec une seule ligne
+df_selection <- data.frame(t(valeurs_selection))
+
+# Renommer les colonnes avec les noms des générations correspondantes
+colnames(df_selection) <- paste0("gen", c(2, 6, 11, 14, 20, 25))
+
+# Utiliser kable pour afficher le tableau
+knitr::kable(df_selection, caption = "R² des espèces selon le type forestier par calcul de la trace", col.names = paste0("gen", c(2, 6, 11, 14, 20, 25)),booktab=TRUE)
+```
+
+Nous retrouvons alors les mêmes \(R^2\) que dans la première partie. (les minimes différences sont dues aux arrondis)
 
 ## Calcul de \( \text{tr}(R \Pi_Y) \) et interprétation statistique
 
 On note \[ R = X M X' W \].
 
 Alors \( \text{tr}(R \Pi_Y) \) représente la somme des variances expliquées par la partition en types forestiers, comme représenté par \( Y \), sur l'ensemble des variables contenues dans la matrice \( X \). Cette valeur constitue une mesure de l'inertie inter-types forestiers et fournit une indication globale de la quantité d'information expliquée par la classification des types forestiers sur l'ensemble des variables analysées.
+Après calcul, nous obtenons \( \text{tr}(R \Pi_Y) = \) `r trace_R_Pi_Y`. Nous retrouvons alors la proportion de variance expliquée par les types forestiers dans la variabilité des densités de peuplement obtenue dans la première partie.
 
 ## Calcul de \( \text{tr}(\Pi_{x_j} \Pi_Z) \), \( \text{tr}(R \Pi_Z) \) et interprétation statistique
 
 Le projecteur \( \Pi_Z \) est défini sur l'espace des indicatrices de sols, représentées par la matrice \( Z \). Le calcul de \( \text{tr}(\Pi_{x_j} \Pi_Z) \) permet d'évaluer combien de la variabilité de \( x_j \) est expliquée par la partition en types de sols. La formule correspondante est :
 
 \[
-\text{tr}(\Pi_{x_j} \Pi_Z)
+\text{tr}(\Pi_{x_j} \Pi_Z) = \text{tr} ({x_j} \left( {x_j}' W {x_j} \right)^{-1} {x_j}' W \Pi_Z) = R^2({x_j} \mid Z)
 \]
 
-En parallèle, \( \text{tr}(R \Pi_Z) \) quantifie la somme des variances expliquées par la partition en types de sols sur toutes les variables dans \( X \). Cette valeur constitue une mesure de l'inertie inter-sols et fournit une indication globale de la quantité d'information expliquée par la classification des sols sur l'ensemble des variables analysées.
+```{r ,echo=FALSE}
+vs <- round(tr_Pi_xj_PiZ[c(2, 6, 11, 14, 20, 25)],4)
+
+# Créer un data frame avec une seule ligne
+dfs <- data.frame(t(vs))
+
+# Renommer les colonnes avec les noms des générations correspondantes
+colnames(dfs) <- paste0("gen", c(2, 6, 11, 14, 20, 25))
+
+# Utiliser kable pour afficher le tableau
+knitr::kable(dfs, caption = "R² des espèces selon le type de sol par calcul de la trace", col.names = paste0("gen", c(2, 6, 11, 14, 20, 25)),booktab=TRUE)
+```
+
+Cet extrait nous montre par exemple qu'environ 32% de la variabilité des densités de peuplement de l'espèce 25 est expliquée par le type de sol. 
+
+En parallèle, \( \text{tr}(R \Pi_Z) \) quantifie la somme des variances expliquées par la partition en types de sols sur toutes les variables dans \( X \). Cette valeur constitue une mesure de l'inertie inter-sols et fournit une indication globale de la quantité d'information expliquée par la classification des sols sur l'ensemble des variables analysées. Le calcul de \( \text{tr}(R \Pi_Z) \) nous donne `r tr_R_Pi_Z` soit environ 7,6%, ce qui est légèrement plus que l'inertie inter-types forestiers. Ainsi, la classification des sols sur l'ensemble des variables analysées nous fournit un peu plus d'informations que la classification des types forestiers.
 
 
 # CONCLUSION 
@@ -331,7 +401,7 @@ Cette analyse nous a permis de mieux comprendre les dynamiques de peuplement for
 
 \newpage
 
-# ANNEXE : CODE R 
+# ANNEXE : CODE R {#annexe}
 ```{r, eval=FALSE, echo=TRUE}
 # En tête ---- 
 
@@ -443,16 +513,13 @@ for (j in 1:ncol(densite_centree_reduite)) {
 R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
 
 #### 3.3 Identification des espèces les plus et les moins liées au type forestier ####
-especes_most_liees <- names(sort(R2_par_espece, decreasing = TRUE))[1:5]  # Les 5 espèces les plus liées
-especes_least_liees <- names(sort(R2_par_espece, decreasing = FALSE))[1:5]  # Les 5 espèces les moins liées
+especes_most_liees <- (sort(R2_par_espece, decreasing = TRUE))[1:5]  # Les 5 espèces les plus liées
+especes_least_liees <- (sort(R2_par_espece, decreasing = FALSE))[1:5]  # Les 5 espèces les moins liées
 
-#### 3.4 Calcul des R2 pour chaque espèce ####
-R2_par_espece <- variance_inter_types_par_espece / variance_totale_par_espece
-
-#### 3.5 Calcul de la moyenne arithmétique des R2 des espèces ####
+#### 3.4 Calcul de la moyenne arithmétique des R2 des espèces ####
 moyenne_R2_especes <- mean(R2_par_espece)
 
-#### 3.6 Vérification que le R2 de la partition est égal à la moyenne des R2 des variables ####
+#### 3.5 Vérification que le R2 de la partition est égal à la moyenne des R2 des variables ####
 verification_R2 <- R2 == moyenne_R2_especes
 
 # Partie 2 ---- 

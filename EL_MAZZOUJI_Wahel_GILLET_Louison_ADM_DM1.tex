@@ -114,6 +114,7 @@
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
 \usepackage{fancyhdr}
+\usepackage{float}
 \pagestyle{fancy}
 \fancyhf{} % Efface les en-têtes et pieds de page par défaut
 \fancyhead[L]{EL MAZZOUJI Wahel, GILLET Louison} % À gauche
@@ -369,7 +370,7 @@ carrés des écarts entre les densités observées et leur barycentre. Ainsi
 
 Nous supposons que le cas présent est équipondéré par conséquent
 \(w_{i} = \frac{1}{n} \implies {\sum_{i=1}^{n} w_{i}}=1\). De plus, nous
-avons vu précédemment que le barycentre du nuage se trouve à l'origine
+avons vu précédemment que le barycentre du nuage se trouvait à l'origine
 d'où \(\bar{x'} = 0\). On a alors :
 
 \[
@@ -391,7 +392,7 @@ Ainsi, l'inertie totale est :
 
 Cela montre que l'inertie totale du nuage des données centrées-réduites
 est égale au nombre de variables \(p\). En l'occurrence, le nombre de
-variables p équivaut au nombre d'espèces qui est 27.
+variables p équivaut au nombre d'espèces, soit 27.
 
 \hypertarget{types-forestiers}{%
 \subsection{Types forestiers}\label{types-forestiers}}
@@ -402,12 +403,12 @@ variables p équivaut au nombre d'espèces qui est 27.
 L'inertie inter-types est calculée par :
 
 \[
-I_{inter-types} = \sum_{k=1}^{p} w_{k} \cdot n_{k}^{2}
+I_{inter-types} = \sum_{k=1}^{K} w_{k} \cdot n_{k}^{2}
 \]
 
-où \(p\) est le nombre de types forestiers, \(w_{k}\) est le poids du
+où \(K\) est le nombre de types forestiers, \(w_{k}\) est le poids du
 type forestier \(k\) et \(n_{k}\) est la norme euclidienne carrée pour
-ce type.
+ce type. On obtient 1.8588457 \(\approx\) 1.86.
 
 \hypertarget{coefficient-de-duxe9termination-ruxb2}{%
 \subsubsection{Coefficient de détermination
@@ -416,37 +417,25 @@ R²}\label{coefficient-de-duxe9termination-ruxb2}}
 Le coefficient de détermination \(R^2\) est donné par :
 
 \[
-R^2 = \frac{I_{inter-types}}{I_{total}}
+R^2 = \frac{I_{inter-types}}{I_{total}} 
 \]
 
 Ce qui représente la proportion de variance expliquée par les types
-forestiers dans la variabilité des densités de peuplement.
-
-\hypertarget{pourcentage-dinformation}{%
-\subsubsection{Pourcentage
-d'information}\label{pourcentage-dinformation}}
+forestiers dans la variabilité des densités de peuplement. Le résultat
+obtenu est 0.0688461 \(\approx\) 0.07. Cela signifie qu'environ 7\% de
+la variabilité des densités de peuplement est expliquée par les types
+forestiers.
 
 \hypertarget{liens-entre-espuxe8ces-et-types-forestiers}{%
 \subsection{Liens entre espèces et types
 forestiers}\label{liens-entre-espuxe8ces-et-types-forestiers}}
 
-Nous devons vérifier que le \(R^2\) de la partition est égal à la
-moyenne des \(R^2\) des espèces. Pour cela, nous calculons le \(R^2\)
-pour chaque espèce \(i\) :
+Nous nous intéressons désormais aux liens entre les espèces et les types
+forestiers. On se propose alors de dresser une figure afin de visualiser
+dans un premier temps la répartition des espèces selon le type
+forestier.
 
-\[
-R^2_{i} = \frac{I_{inter,i}}{I_{total,i}}
-\]
-
-Puis, nous comparons avec :
-
-\[
-R^2_{partition} = \frac{1}{m} \sum_{i=1}^{m} R^2_{i}
-\]
-
-où \(m\) est le nombre d'espèces.
-
-\begin{figure}[ht!]
+\begin{figure}[H]
 
 {\centering \includegraphics{EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1_files/figure-latex/especes_forest-1} 
 
@@ -455,15 +444,111 @@ où \(m\) est le nombre d'espèces.
 \caption{Répartition des espèces d'arbres par type forestier}\label{fig:especes_forest}
 \end{figure}
 
-On observe immédiatement que les espèces 10,11,12 et 13 ainsi que les
-espèces 25 et 26 sont les plus présentes sur les différents types
-forestiers. Par ailleurs, remarquons que les types 1 et 7 sont
-clairement les types présentant le plus d'arbres et le plus d'espèces.
+Nous remarquons par la figure 1 que les espèces 10,11,25 et 26 semblent
+être les plus liées aux types forestiers. En effet, elles sont beaucoup
+plus présentes sur les types 1 et 7. A l'inverse, les espèces 2 à 6 ne
+semblent pas être liées au type forestier. Cependant, nous verrons après
+divers calcul et une analyse plus profonde que notre intuition peut
+parfois nous jouer des tours.
+
+Nous voulons donc calculer le \(R^2\) de chaque variable densité de
+peuplement où
+
+\[
+R^2 = \frac{\text{variance inter-types forestiers}}{\text{variance totale}}
+\]
+
+Après calcul, nous isolons les 5 espèces les plus (respectivement moins)
+liées aux types :
+
+\begin{longtable}[]{@{}rrrrr@{}}
+\caption{R² des 5 espèces les plus liées au type}\tabularnewline
+\toprule\noalign{}
+gen25 & gen11 & gen2 & gen16 & gen17 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+gen25 & gen11 & gen2 & gen16 & gen17 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1847 & 0.1439 & 0.1325 & 0.1181 & 0.0964 \\
+\end{longtable}
+
+\begin{longtable}[]{@{}rrrrr@{}}
+\caption{R² des 5 espèces les moins liées au type}\tabularnewline
+\toprule\noalign{}
+gen6 & gen20 & gen14 & gen18 & gen13 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+gen6 & gen20 & gen14 & gen18 & gen13 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0084 & 0.0139 & 0.0191 & 0.0251 & 0.0303 \\
+\end{longtable}
+
+Nous constatons alors que nos premières intuitions étaient plus ou moins
+bonnes. En effet, les espèces 25 et 11 sont les plus liées au type
+forestier tandis que l'espèce 6 est la moins liée au type forestier. En
+revanche, nous avions supposé que l'espèce 2 n'était pas liée au type.
+Or, la table 3 nous indique qu'elle est clairement une des espèces la
+plus liée au type forestier car environ 13\% de la variabilité de sa
+densité de peuplement est expliquée par le type forestier.
+
+Nous devons vérifier que le \(R^2\) de la partition est égal à la
+moyenne des \(R^2\) des espèces. Pour cela, nous calculons le \(R^2\)
+pour chaque espèce \(j\) :
+
+\[
+R^2_{j} = \frac{I_{inter-types,j}}{I_{total,j}}
+\]
+
+Puis, nous comparons avec :
+
+\[
+R^2_{partition} = \frac{1}{p} \sum_{j=1}^{p} R^2_{j}
+\]
+
+où \(p\) est le nombre d'espèces (27).
+
+Nous retrouvons bien informatiquement que le \(R^2\) de la partition est
+égal à la moyenne des \(R^2\) des espèces, comme le montre l'extrait de
+code suivant :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(R2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.06884614
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(moyenne\_R2\_especes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.06884614
+\end{verbatim}
+
+(le codage des variables est fourni en
+\protect\hyperlink{annexe}{Annexe})
 
 \newpage
 
 \hypertarget{partie-2}{%
 \section{PARTIE 2}\label{partie-2}}
+
+\hypertarget{pruxe9liminaires}{%
+\subsection{Préliminaires}\label{pruxe9liminaires}}
 
 Nous savons que l'espace \(Y\) peut être décomposé de la manière
 suivante : \[
@@ -549,10 +634,41 @@ De la même manière, nous avons :
 Pour chaque vecteur \(x_j\), le calcul de \(\text{tr}(\Pi_{x_j} \Pi_Y)\)
 implique la projection de \(x_j\) dans l'espace défini par \(Y\). Cette
 opération nous permet d'évaluer la quantité de variabilité dans \(x_j\)
-qui est expliquée par la classification en types forestiers.
-Ainsi,\[ \text{tr}(\Pi_{x_j} \Pi_Y) = R^2 \] où \(R^2\) représente la
-proportion de variance expliquée par les types forestiers dans la
-variabilité des densités de peuplement.
+qui est expliquée par la classification en types forestiers. Ainsi,
+
+\[ 
+\begin{aligned} 
+\text{tr}(\Pi_{x_j} \Pi_Y) & = \text{tr} ({x_j} \left( {x_j}' W {x_j} \right)^{-1} {x_j}' W \Pi_Y) \\
+& = \left( {x_j}' W {x_j} \right)^{-1} \text{tr} ({x_j}{x_j}' W \Pi_Y)\\
+& = \frac{1}{\|x_j\|^2}  \text{tr} ({x_j}' W \Pi_Y{x_j})\\
+& = \frac{1}{\|x_j\|^2}  \langle x_j, \Pi_Y x_j \rangle_W \\
+& = \frac{\|\Pi_Y x_j\|_W^2}{\|x_j\|^2}\\
+& = R^2({x_j} \mid Y)
+\end{aligned}
+\]
+
+où \(R^2(x_j \mid Y)\) représente la part de variabilité de \({x_j}\)
+qui est due à Y. En somme, \(\text{tr}(\Pi_{x_j} \Pi_Y)\) mesure la part
+de variabilité des densités d'une espèce due au type forestier.
+
+\begin{longtable}[]{@{}rrrrrr@{}}
+\caption{R² des espèces selon le type forestier par calcul de la
+trace}\tabularnewline
+\toprule\noalign{}
+gen2 & gen6 & gen11 & gen14 & gen20 & gen25 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+gen2 & gen6 & gen11 & gen14 & gen20 & gen25 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1327 & 0.0085 & 0.1441 & 0.0191 & 0.0139 & 0.1849 \\
+\end{longtable}
+
+Nous retrouvons alors les mêmes \(R^2\) que dans la première partie.
+(les minimes différences sont dues aux arrondis)
 
 \hypertarget{calcul-de-texttrr-pi_y-et-interpruxe9tation-statistique}{%
 \subsection{\texorpdfstring{Calcul de \(\text{tr}(R \Pi_Y)\) et
@@ -567,7 +683,10 @@ expliquées par la partition en types forestiers, comme représenté par
 Cette valeur constitue une mesure de l'inertie inter-types forestiers et
 fournit une indication globale de la quantité d'information expliquée
 par la classification des types forestiers sur l'ensemble des variables
-analysées.
+analysées. Après calcul, nous obtenons \(\text{tr}(R \Pi_Y) =\)
+0.0688461. Nous retrouvons alors la proportion de variance expliquée par
+les types forestiers dans la variabilité des densités de peuplement
+obtenue dans la première partie.
 
 \hypertarget{calcul-de-texttrpi_x_j-pi_z-texttrr-pi_z-et-interpruxe9tation-statistique}{%
 \subsection{\texorpdfstring{Calcul de \(\text{tr}(\Pi_{x_j} \Pi_Z)\),
@@ -581,14 +700,39 @@ variabilité de \(x_j\) est expliquée par la partition en types de sols.
 La formule correspondante est :
 
 \[
-\text{tr}(\Pi_{x_j} \Pi_Z)
+\text{tr}(\Pi_{x_j} \Pi_Z) = \text{tr} ({x_j} \left( {x_j}' W {x_j} \right)^{-1} {x_j}' W \Pi_Z) = R^2({x_j} \mid Z)
 \]
+
+\begin{longtable}[]{@{}rrrrrr@{}}
+\caption{R² des espèces selon le type de sol par calcul de la
+trace}\tabularnewline
+\toprule\noalign{}
+gen2 & gen6 & gen11 & gen14 & gen20 & gen25 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+gen2 & gen6 & gen11 & gen14 & gen20 & gen25 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.0175 & 0.0088 & 0.0673 & 0.0317 & 0.0044 & 0.3233 \\
+\end{longtable}
+
+Cet extrait nous montre par exemple qu'environ 32\% de la variabilité
+des densités de peuplement de l'espèce 25 est expliquée par le type de
+sol.
 
 En parallèle, \(\text{tr}(R \Pi_Z)\) quantifie la somme des variances
 expliquées par la partition en types de sols sur toutes les variables
 dans \(X\). Cette valeur constitue une mesure de l'inertie inter-sols et
 fournit une indication globale de la quantité d'information expliquée
 par la classification des sols sur l'ensemble des variables analysées.
+Le calcul de \(\text{tr}(R \Pi_Z)\) nous donne 0.0758867 soit environ
+7,6\%, ce qui est légèrement plus que l'inertie inter-types forestiers.
+Ainsi, la classification des sols sur l'ensemble des variables analysées
+nous fournit un peu plus d'informations que la classification des types
+forestiers.
 
 \hypertarget{conclusion}{%
 \section{CONCLUSION}\label{conclusion}}
@@ -602,8 +746,8 @@ recherches futures et des actions de conservation.
 
 \newpage
 
-\hypertarget{annexe-code-r}{%
-\section{ANNEXE : CODE R}\label{annexe-code-r}}
+\hypertarget{annexe}{%
+\section{ANNEXE : CODE R}\label{annexe}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -723,16 +867,13 @@ recherches futures et des actions de conservation.
 
 \DocumentationTok{\#\#\#\# 3.3 Identification des espèces les plus et les moins liées au type}
 \DocumentationTok{\#\#\#\# forestier \#\#\#\#}
-\NormalTok{especes\_most\_liees }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(R2\_par\_espece, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{))[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]  }\CommentTok{\# Les 5 espèces les plus liées}
-\NormalTok{especes\_least\_liees }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(R2\_par\_espece, }\AttributeTok{decreasing =} \ConstantTok{FALSE}\NormalTok{))[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]  }\CommentTok{\# Les 5 espèces les moins liées}
+\NormalTok{especes\_most\_liees }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sort}\NormalTok{(R2\_par\_espece, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{))[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]  }\CommentTok{\# Les 5 espèces les plus liées}
+\NormalTok{especes\_least\_liees }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sort}\NormalTok{(R2\_par\_espece, }\AttributeTok{decreasing =} \ConstantTok{FALSE}\NormalTok{))[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]  }\CommentTok{\# Les 5 espèces les moins liées}
 
-\DocumentationTok{\#\#\#\# 3.4 Calcul des R2 pour chaque espèce \#\#\#\#}
-\NormalTok{R2\_par\_espece }\OtherTok{\textless{}{-}}\NormalTok{ variance\_inter\_types\_par\_espece}\SpecialCharTok{/}\NormalTok{variance\_totale\_par\_espece}
-
-\DocumentationTok{\#\#\#\# 3.5 Calcul de la moyenne arithmétique des R2 des espèces \#\#\#\#}
+\DocumentationTok{\#\#\#\# 3.4 Calcul de la moyenne arithmétique des R2 des espèces \#\#\#\#}
 \NormalTok{moyenne\_R2\_especes }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(R2\_par\_espece)}
 
-\DocumentationTok{\#\#\#\# 3.6 Vérification que le R2 de la partition est égal à la moyenne des R2}
+\DocumentationTok{\#\#\#\# 3.5 Vérification que le R2 de la partition est égal à la moyenne des R2}
 \DocumentationTok{\#\#\#\# des variables \#\#\#\#}
 \NormalTok{verification\_R2 }\OtherTok{\textless{}{-}}\NormalTok{ R2 }\SpecialCharTok{==}\NormalTok{ moyenne\_R2\_especes}
 

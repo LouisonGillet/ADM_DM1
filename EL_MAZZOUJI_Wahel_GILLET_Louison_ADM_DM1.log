@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.4.3)  19 OCT 2024 19:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.4.3)  20 OCT 2024 11:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -813,36 +813,36 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 [7] [8] [9] [10]
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 817.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 820.
 
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-832.
+835.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `TS1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `TS1/lmtt/b/sl' tried instead on input line 832.
+(Font)              Font shape `TS1/lmtt/b/sl' tried instead on input line 835.
 
 
 
-Underfull \vbox (badness 3482) detected at line 976
+Underfull \vbox (badness 3482) detected at line 979
  []
 
 [11]
-Underfull \vbox (badness 10000) detected at line 976
+Underfull \vbox (badness 10000) detected at line 979
  []
 
 
-Underfull \vbox (badness 10000) detected at line 976
+Underfull \vbox (badness 10000) detected at line 979
  []
 
 [12]
-Underfull \vbox (badness 10000) detected at line 976
+Underfull \vbox (badness 10000) detected at line 979
  []
 
 
-Overfull \vbox (1.14925pt too high) detected at line 976
+Overfull \vbox (1.14925pt too high) detected at line 979
  []
 
 [13] [14] (EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.aux)
@@ -879,8 +879,8 @@ al/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/PC3D/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/lm/lmtko10.pfb><C:/Users/PC3D/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/PC3D/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb>
-Output written on EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.pdf (14 pages, 47144
-1 bytes).
+Output written on EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.pdf (14 pages, 47077
+7 bytes).
 PDF statistics:
  366 PDF objects out of 1000 (max. 8388607)
  69 named destinations out of 1000 (max. 500000)

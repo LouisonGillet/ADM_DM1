@@ -323,13 +323,14 @@ On a :
 \]
 La projection de \( x^j \) sur \( Y \) est donnée par :
 \[
-\Pi_Y x^j = \sum_{q=1}^{Q} w^q (\overline{x}^q - \overline{x})
+\Pi_Y x^j = \sum_{k=1}^{K} p_k (\overline{x^j}_k - \overline{x^j})
 \]
-où \( \overline{x}^q \) est la moyenne pondérée de \( x^j \) pour le type forestier \( q \), et \( \overline{x} \) est la moyenne globale.
+où \( \overline{x^j}_k \) est la moyenne pondérée de \( x^j \) pour le type forestier \( k \), et \( \overline{x^j} \) est la moyenne pondérée de \( x^j \).
 
 Statistiquement, \( \| \Pi_Y x^j \|_W^2 \) représente la variance inter-groupes de \( x^j \), c'est-à-dire la part de la variance totale de \( x^j \) qui est expliquée par les types forestiers :
+
 \[
-\| \Pi_Y x^j \|_W^2 = \sum_{q=1}^{Q} w^q (\overline{x^q} - \overline{x})^2
+\| \Pi_Y x^j \|_W^2 = \sum_{k=1}^{K} p_k (\overline{x^j}_k - \overline{x^j})^2
 \]
 
 Cette expression mesure la part de la variabilité de \( x^j \) expliquée par la partition en types forestiers.

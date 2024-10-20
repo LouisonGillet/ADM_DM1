@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.4.3)  17 OCT 2024 21:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.4.3)  19 OCT 2024 19:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -589,8 +589,8 @@ File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO
 )) (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/xurl\xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 )
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 15
-5.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 16
+3.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -602,37 +602,37 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 ) (EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.aux)
 \openout1 = `EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 155.
-LaTeX Font Info:    ... okay on input line 155.
-LaTeX Info: Redefining \microtypecontext on input line 155.
-Package microtype Info: Applying patch `item' on input line 155.
-Package microtype Info: Applying patch `toc' on input line 155.
-Package microtype Info: Applying patch `eqnum' on input line 155.
-Package microtype Info: Applying patch `footnote' on input line 155.
-Package microtype Info: Applying patch `verbatim' on input line 155.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 163.
+LaTeX Font Info:    ... okay on input line 163.
+LaTeX Info: Redefining \microtypecontext on input line 163.
+Package microtype Info: Applying patch `item' on input line 163.
+Package microtype Info: Applying patch `toc' on input line 163.
+Package microtype Info: Applying patch `eqnum' on input line 163.
+Package microtype Info: Applying patch `footnote' on input line 163.
+Package microtype Info: Applying patch `verbatim' on input line 163.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 155.
+LaTeX Info: Redefining \showhyphens on input line 163.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -699,41 +699,41 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 155.
+Package hyperref Info: Link coloring OFF on input line 163.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-57.
+65.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-57.
+65.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-157.
+165.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-157.
+165.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 157.
+(Font)              <12> on input line 165.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 157.
+(Font)              <8> on input line 165.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 157.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 157
+(Font)              <6> on input line 165.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 165
 .
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 157
+LaTeX Font Info:    Trying to load font information for U+msb on input line 165
 .
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -743,7 +743,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 <ssd.png, id=3, 301.125pt x 103.38625pt>
 File: ssd.png Graphic file (type png)
 <use ssd.png>
-Package pdftex.def Info: ssd.png  used on input line 160.
+Package pdftex.def Info: ssd.png  used on input line 168.
 (pdftex.def)             Requested size: 250.25072pt x 85.9194pt.
 [1
 
@@ -767,27 +767,27 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 [2{C:/Users/PC3D/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{C
 :/Users/PC3D/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Use
 rs/PC3D/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}] [3]
-Overfull \hbox (0.12416pt too wide) in alignment at lines 274--294
+Overfull \hbox (0.12416pt too wide) in alignment at lines 282--302
  [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.12416pt too wide) in alignment at lines 294--312
+Overfull \hbox (0.12416pt too wide) in alignment at lines 302--320
  [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.12416pt too wide) in alignment at lines 312--314
+Overfull \hbox (0.12416pt too wide) in alignment at lines 320--322
  [] [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (0.12416pt too wide) in alignment at lines 314--325
+Overfull \hbox (0.12416pt too wide) in alignment at lines 322--333
  [] [] [] [] [] [] [] 
  []
 
 
-LaTeX Warning: Command \` invalid in math mode on input line 368.
+LaTeX Warning: Command \` invalid in math mode on input line 376.
 
 [4{C:/Users/PC3D/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc
 }{C:/Users/PC3D/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}
@@ -799,50 +799,50 @@ t-1.pdf Graphic file (type pdf)
 <use EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1_files/figure-latex/especes_forest
 -1.pdf>
 Package pdftex.def Info: EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1_files/figure-
-latex/especes_forest-1.pdf  used on input line 440.
+latex/especes_forest-1.pdf  used on input line 415.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[5] [6 <./EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1_files/figure-latex/especes_f
-orest-1.pdf>]
+[5 <./EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1_files/figure-latex/especes_fores
+t-1.pdf>] [6]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5
-23.
+65.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 524.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 566.
 [7] [8] [9] [10]
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 771.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 817.
 
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-786.
+832.
 (C:\Users\PC3D\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `TS1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `TS1/lmtt/b/sl' tried instead on input line 786.
+(Font)              Font shape `TS1/lmtt/b/sl' tried instead on input line 832.
 
 
 
-Underfull \vbox (badness 3482) detected at line 932
+Underfull \vbox (badness 3482) detected at line 976
  []
 
 [11]
-Underfull \vbox (badness 10000) detected at line 932
+Underfull \vbox (badness 10000) detected at line 976
  []
 
 
-Underfull \vbox (badness 10000) detected at line 932
+Underfull \vbox (badness 10000) detected at line 976
  []
 
 [12]
-Underfull \vbox (badness 10000) detected at line 932
+Underfull \vbox (badness 10000) detected at line 976
  []
 
 
-Underfull \vbox (badness 10000) detected at line 932
+Overfull \vbox (1.14925pt too high) detected at line 976
  []
 
 [13] [14] (EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.aux)
@@ -852,13 +852,13 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 17449 strings out of 474485
- 283069 string characters out of 5744207
+ 17448 strings out of 474485
+ 283049 string characters out of 5744207
  1949542 words of memory out of 5000000
- 39166 multiletter control sequences out of 15000+600000
- 649176 words of font info for 176 fonts, out of 8000000 for 9000
+ 39168 multiletter control sequences out of 15000+600000
+ 649010 words of font info for 174 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 77i,12n,81p,1195b,573s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 77i,12n,81p,1195b,578s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/PC3D/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb
 ><C:/Users/PC3D/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb>
 <C:/Users/PC3D/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><
@@ -879,10 +879,10 @@ al/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/PC3D/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/lm/lmtko10.pfb><C:/Users/PC3D/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/PC3D/AppData/Local
 /Programs/MiKTeX/fonts/type1/public/lm/lmtti10.pfb>
-Output written on EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.pdf (14 pages, 46504
-9 bytes).
+Output written on EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1.pdf (14 pages, 47144
+1 bytes).
 PDF statistics:
- 365 PDF objects out of 1000 (max. 8388607)
- 68 named destinations out of 1000 (max. 500000)
+ 366 PDF objects out of 1000 (max. 8388607)
+ 69 named destinations out of 1000 (max. 500000)
  55483 words of extra memory for PDF output out of 61914 (max. 10000000)
 

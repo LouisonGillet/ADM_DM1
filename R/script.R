@@ -55,7 +55,7 @@ inertie_totale <- sum(variances_apres_centrage)
 #### 2.1 Calcul des poids, barycentres des types forestiers et normes euclidiennes de ces barycentres ####
 
 ### Identification des types forestiers
-types_forestiers <- unique(data$forest)
+types_forestiers <- sort(unique(data$forest))
 
 ### Création d'une matrice pour les poids, barycentres et normes euclidiennes carrées
 d <- length(types_forestiers)

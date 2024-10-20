@@ -142,13 +142,21 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={TP1 : Inertie des peuplements forestiers},
+  pdftitle={Manipulations élémentaires autour de l'inertie},
   pdfauthor={EL MAZZOUJI Wahel; GILLET Louison},
   pdflang={true},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{TP1 : Inertie des peuplements forestiers}
+\title{Manipulations élémentaires autour de l'inertie}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Analyse statistique des peuplements forestiers du bassin du
+Congo}
 \author{EL MAZZOUJI Wahel \and GILLET Louison}
 \date{2024/2025}
 
@@ -397,18 +405,62 @@ variables p équivaut au nombre d'espèces, soit 27.
 \hypertarget{types-forestiers}{%
 \subsection{Types forestiers}\label{types-forestiers}}
 
+Nous nous penchons ici sur les différents types forestiers du bassin du
+Congo. Notre objectif est de créer une figure permettant, dans un
+premier temps, de visualiser la répartition des espèces en fonction des
+types forestiers.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1_files/figure-latex/especes_forest-1} 
+
+}
+
+\caption{Répartition des espèces d'arbres par type forestier}\label{fig:especes_forest}
+\end{figure}
+
+Tout d'abord, on remarque que les types forestiers 1 et 7 sont ceux
+ayant le plus d'arbres. Le calcul des poids vient appuyer cette
+observation :
+
+\begin{longtable}[]{@{}rrrrrrr@{}}
+\caption{Poids des types forestiers}\tabularnewline
+\toprule\noalign{}
+type1 & type2 & type3 & type4 & type5 & type6 & type7 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+type1 & type2 & type3 & type4 & type5 & type6 & type7 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.278 & 0.105 & 0.022 & 0.018 & 0.169 & 0.095 & 0.313 \\
+\end{longtable}
+
+Le poids du type forestier k est donné par : \[
+p_k = \frac{n_k}{n}
+\] où \(n_k\) est le nombre de parcelles du type forestier \(k\) et
+\(n\) le nombre total de parcelles (1000).
+
 \hypertarget{inertie-inter-types}{%
 \subsubsection{Inertie inter-types}\label{inertie-inter-types}}
 
-L'inertie inter-types est calculée par :
+Nous voulons calculer l'inertie inter-types forestiers. Soit :
 
 \[
-I_{inter-types} = \sum_{k=1}^{K} w_{k} \cdot n_{k}^{2}
+I_{inter-types} = \sum_{k=1}^{K} p_{k}\|B_k\|^2
 \]
 
-où \(K\) est le nombre de types forestiers, \(w_{k}\) est le poids du
-type forestier \(k\) et \(n_{k}\) est la norme euclidienne carrée pour
-ce type. On obtient 1.8588457 \(\approx\) 1.86.
+où \(K\) est le nombre de types forestiers (ici 7) et \(B_k\) est le
+barycentre du type forestier \(k\). Le barycentre du type \(k\)
+\(\forall j \in [1,p]\) est obtenu par :
+
+\[
+B_{k}^{j}=\frac{1}{n_k} \sum_{i \in \text{type } k} x_{i}^{j}
+\]
+
+Le calcul de l'inertie nous donne 1.8588457 \(\approx\) 1.86.
 
 \hypertarget{coefficient-de-duxe9termination-ruxb2}{%
 \subsubsection{Coefficient de détermination
@@ -417,7 +469,7 @@ R²}\label{coefficient-de-duxe9termination-ruxb2}}
 Le coefficient de détermination \(R^2\) est donné par :
 
 \[
-R^2 = \frac{I_{inter-types}}{I_{total}} 
+R^2 = \frac{I_{inter-types}}{I_{total}} = \frac {\sum_{k=1}^{K} p_{k}\|B_k\|^2}{p}
 \]
 
 Ce qui représente la proportion de variance expliquée par les types
@@ -430,26 +482,18 @@ forestiers.
 \subsection{Liens entre espèces et types
 forestiers}\label{liens-entre-espuxe8ces-et-types-forestiers}}
 
-Nous nous intéressons désormais aux liens entre les espèces et les types
-forestiers. On se propose alors de dresser une figure afin de visualiser
-dans un premier temps la répartition des espèces selon le type
-forestier.
+Nous explorons à présent les liens entre les espèces et les types
+forestiers.
 
-\begin{figure}[H]
-
-{\centering \includegraphics{EL_MAZZOUJI_Wahel_GILLET_Louison_ADM_DM1_files/figure-latex/especes_forest-1} 
-
-}
-
-\caption{Répartition des espèces d'arbres par type forestier}\label{fig:especes_forest}
-\end{figure}
-
-Nous remarquons par la figure 1 que les espèces 10,11,25 et 26 semblent
-être les plus liées aux types forestiers. En effet, elles sont beaucoup
-plus présentes sur les types 1 et 7. A l'inverse, les espèces 2 à 6 ne
-semblent pas être liées au type forestier. Cependant, nous verrons après
-divers calcul et une analyse plus profonde que notre intuition peut
-parfois nous jouer des tours.
+La figure 1 permet de formuler des hypothèses sur ces relations. À
+première vue, les espèces 10, 11, 25 et 26 semblent avoir des affinités
+marquées avec certains types forestiers. En revanche, les espèces 2 à 6
+présentent une répartition relativement homogène parmi les différents
+types, suggérant une moindre influence du type forestier sur leur
+distribution. Toutefois, cette observation ne prend pas en compte
+l'ensemble des variables disponibles. Une analyse plus approfondie et
+des calculs complémentaires pourraient révéler que nos intuitions
+initiales méritent d'être nuancées.
 
 Nous voulons donc calculer le \(R^2\) de chaque variable densité de
 peuplement où
@@ -491,33 +535,31 @@ gen6 & gen20 & gen14 & gen18 & gen13 \\
 0.0084 & 0.0139 & 0.0191 & 0.0251 & 0.0303 \\
 \end{longtable}
 
-Nous constatons alors que nos premières intuitions étaient plus ou moins
-bonnes. En effet, les espèces 25 et 11 sont les plus liées au type
-forestier tandis que l'espèce 6 est la moins liée au type forestier. En
-revanche, nous avions supposé que l'espèce 2 n'était pas liée au type.
-Or, la table 3 nous indique qu'elle est clairement une des espèces la
-plus liée au type forestier car environ 13\% de la variabilité de sa
-densité de peuplement est expliquée par le type forestier.
+Nous réalisons que nos premières intuitions étaient en partie correctes,
+mais nécessitent bien des ajustements. En effet, les espèces 25 et 11 se
+révèlent être les plus fortement associées au type forestier, tandis que
+l'espèce 6 montre la plus faible corrélation. À l'inverse de notre
+hypothèse initiale, l'espèce 2 n'est pas sans lien avec le type
+forestier. La table 3 indique clairement qu'elle est, en fait, l'une des
+espèces les plus liées à ce facteur, avec environ 13 \% de la
+variabilité de sa densité de peuplement expliquée par le type forestier.
 
 Nous devons vérifier que le \(R^2\) de la partition est égal à la
-moyenne des \(R^2\) des espèces. Pour cela, nous calculons le \(R^2\)
-pour chaque espèce \(j\) :
+moyenne des \(R^2\) des espèces. Soit :
 
 \[
-R^2_{j} = \frac{I_{inter-types,j}}{I_{total,j}}
+\begin{aligned}
+R^2 = \frac{I_{inter-types}}{I_{total}} & = \frac {\sum_{k=1}^{K} p_{k}\|B_k\|^2}{p}\\
+& = \frac{1}{p} \sum_{k=1}^{K} p_{k} \sum_{j=1}^{p} ({B}_{k}^{j})^2 \\
+& = \frac{1}{p} \sum_{j=1}^{p} \sum_{k=1}^{K} p_{k}({B}_{k}^{j})^2 \\
+& = \frac{1}{p} \sum_{j=1}^{p} \frac {\sum_{k=1}^{K} p_{k}({B}_{k}^{j})^2}{1}\\
+& = \frac{1}{p} \sum_{j=1}^{p} \frac{I_{inter-types,j}}{I_{total,j}} \\
+& = \frac{1}{p} \sum_{j=1}^{p} R^2_{j}
+\end{aligned}
 \]
 
-Puis, nous comparons avec :
-
-\[
-R^2_{partition} = \frac{1}{p} \sum_{j=1}^{p} R^2_{j}
-\]
-
-où \(p\) est le nombre d'espèces (27).
-
-Nous retrouvons bien informatiquement que le \(R^2\) de la partition est
-égal à la moyenne des \(R^2\) des espèces, comme le montre l'extrait de
-code suivant :
+Nous retrouvons bien informatiquement cett égalité comme le montre
+l'extrait de code suivant :
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -539,8 +581,7 @@ code suivant :
 [1] 0.06884614
 \end{verbatim}
 
-(le codage des variables est fourni en
-\protect\hyperlink{annexe}{Annexe})
+(le détail des calculs est fourni en \protect\hyperlink{annexe}{Annexe})
 
 \newpage
 
@@ -737,12 +778,17 @@ forestiers.
 \hypertarget{conclusion}{%
 \section{CONCLUSION}\label{conclusion}}
 
-Cette analyse nous a permis de mieux comprendre les dynamiques de
-peuplement forestier dans la forêt du bassin du Congo. En intégrant des
-approches statistiques robustes, nous avons pu quantifier la variabilité
-des espèces et leur répartition en fonction des types forestiers. Les
-résultats de cette étude fourniront des bases solides pour des
-recherches futures et des actions de conservation.
+En somme, cette analyse a approfondi notre compréhension des dynamiques
+de peuplement forestier dans le bassin du Congo. Nous avons comparé la
+densité de peuplement de 27 espèces d'arbres sur 1000 parcelles, en
+tenant compte de la taille des parcelles. La standardisation des
+densités a révélé que les types forestiers expliquent une part
+significative de la variabilité des densités de peuplement. L'analyse
+des R² a mis en évidence les espèces les plus influencées par ces types,
+et les projections ont clarifié l'impact des types forestiers et
+géologiques sur la répartition des espèces. Ces résultats sont
+essentiels pour la gestion et la conservation des forêts du bassin du
+Congo.
 
 \newpage
 
@@ -808,7 +854,7 @@ recherches futures et des actions de conservation.
 \DocumentationTok{\#\#\#\# euclidiennes de ces barycentres \#\#\#\#}
 
 \DocumentationTok{\#\#\# Identification des types forestiers}
-\NormalTok{types\_forestiers }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{forest)}
+\NormalTok{types\_forestiers }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{forest))}
 
 \DocumentationTok{\#\#\# Création d\textquotesingle{}une matrice pour les poids, barycentres et normes euclidiennes}
 \DocumentationTok{\#\#\# carrées}
@@ -890,7 +936,6 @@ recherches futures et des actions de conservation.
 \DocumentationTok{\#\#\# 1.1.2 Calcul}
 \NormalTok{Pi\_Y }\OtherTok{\textless{}{-}}\NormalTok{ Y }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(Y) }\SpecialCharTok{\%*\%}\NormalTok{ W }\SpecialCharTok{\%*\%}\NormalTok{ Y) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(Y) }\SpecialCharTok{\%*\%}\NormalTok{ W  }\CommentTok{\#solve donne l\textquotesingle{}inverse de Y\textquotesingle{}WY }
 
-
 \DocumentationTok{\#\#\#\# 1.2 Calcul Pi\_xj et tr(Pi\_Y*Pi\_xj \#\#\#\#}
 \NormalTok{tr\_Pi\_xj\_PiY }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(p)}
 
@@ -899,7 +944,6 @@ recherches futures et des actions de conservation.
 \NormalTok{    Pi\_xj }\OtherTok{\textless{}{-}}\NormalTok{ x\_j }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(x\_j) }\SpecialCharTok{\%*\%}\NormalTok{ W }\SpecialCharTok{\%*\%}\NormalTok{ x\_j) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(x\_j) }\SpecialCharTok{\%*\%}\NormalTok{ W}
 \NormalTok{    tr\_Pi\_xj\_PiY[j] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{diag}\NormalTok{(Pi\_xj }\SpecialCharTok{\%*\%}\NormalTok{ Pi\_Y))}
 \NormalTok{\}}
-\FunctionTok{sum}\NormalTok{(tr\_Pi\_xj\_PiY)}
 
 \DocumentationTok{\#\#\#\# 1.3 Calcul de tr(RPI\_Y)}
 \NormalTok{R }\OtherTok{\textless{}{-}}\NormalTok{ X }\SpecialCharTok{\%*\%}\NormalTok{ M }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ W}
